@@ -3,173 +3,161 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #1f2937;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #8b5cf6, #ec4899);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #7c3aed, #db2777);
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Remove default margins */
+/* Reset complet pour éviter les problèmes */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Body styling */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  height: 100%;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: #111827;
+  background-color: #0a0a0a;
   color: #ffffff;
   overflow-x: hidden;
-  line-height: 1.5;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-/* Global animations */
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(180deg); }
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
 }
 
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #8b5cf6, #ec4899);
+  border-radius: 5px;
 }
 
-@keyframes text-glow {
-  0%, 100% { text-shadow: 0 0 20px rgba(139, 92, 246, 0.5); }
-  50% { text-shadow: 0 0 40px rgba(236, 72, 153, 0.8); }
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #7c3aed, #db2777);
 }
 
-@keyframes blob {
-  0%, 100% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-}
-
-@keyframes card-float {
-  0%, 100% { transform: translateY(0px) rotateY(0deg); }
-  50% { transform: translateY(-10px) rotateY(5deg); }
-}
-
-/* Custom utilities layer */
-@layer utilities {
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-  
-  .animate-gradient-shift {
-    animation: gradient-shift 6s ease infinite;
-  }
-  
-  .text-glow {
-    animation: text-glow 3s ease-in-out infinite;
-  }
-
-  .animate-blob {
-    animation: blob 7s infinite;
-  }
-
-  .animate-card-float {
-    animation: card-float 4s ease-in-out infinite;
-  }
-
-  .glass-morphism {
-    backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .gradient-shift {
-    background: linear-gradient(-45deg, #FF0050, #E4405F, #1DA1F2, #8B5CF6);
-    background-size: 400% 400%;
-    animation: gradient-shift 6s ease infinite;
-  }
-
-  .pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-
-  .perspective-1000 {
-    perspective: 1000px;
-  }
-
-  .preserve-3d {
-    transform-style: preserve-3d;
-  }
-
-  .blob-animation {
-    animation: blob 7s infinite;
-  }
-
-  .card-float {
-    animation: card-float 4s ease-in-out infinite;
-  }
-
-  .nav-item-hover {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .nav-item-hover:hover {
-    transform: translateY(-2px) scale(1.05);
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+/* Animation pulse pour les badges */
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
   }
 }
 
-/* Fix for Next.js hydration */
-.next-error-h1 {
-  border-right: 1px solid rgba(255, 255, 255, 0.3);
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-/* Ensure proper stacking contexts */
+/* Animation bounce pour les éléments */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+/* Compatibilité pour les gradients de texte */
+.gradient-text {
+  background: linear-gradient(to right, #fbbf24, #ec4899, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Glass morphism effect */
+.glass {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Fix pour éviter les problèmes de z-index */
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
 .fixed {
+  position: fixed;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.z-50 {
   z-index: 50;
 }
 
-/* Prevent layout shift */
-img {
-  max-width: 100%;
-  height: auto;
+/* S'assurer que les sections prennent toute la hauteur */
+section {
+  min-height: 100vh;
+  position: relative;
 }
 
-/* Ensure text gradients work */
-.bg-clip-text {
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Fix pour les problèmes de rendu sur certains navigateurs */
+@supports (-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px)) {
+  .glass {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
 }
 
-/* Fix for backdrop-blur not working in some browsers */
-@supports not (backdrop-filter: blur(20px)) {
-  .glass-morphism {
-    background: rgba(255, 255, 255, 0.3);
+/* Empêcher le débordement horizontal */
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+/* S'assurer que les éléments flottants ne causent pas de scrollbar */
+body > * {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Fix pour les animations qui peuvent causer des problèmes de performance */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* S'assurer que les boutons sont cliquables */
+button {
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Fix pour les gradients sur Safari */
+@supports (-webkit-background-clip: text) {
+  .text-gradient {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }

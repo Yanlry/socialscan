@@ -1,276 +1,502 @@
 // /src/app/components/HeroBanner.js
 "use client";
-import React, { useState, useCallback, useEffect } from 'react';
-import FloatingOrb from './FloatingOrb';
-import { SOCIAL_PLATFORMS, HERO_STATS } from '../../constants';
+import React, { useState, useEffect } from "react";
 
-/**
- * HeroBanner: Dynamic hero section with animated elements
- * Features floating social media elements and interactive CTAs
- */
-export default function HeroBanner({ 
-  platforms = SOCIAL_PLATFORMS, 
-  onCTAClick 
-}) {
+export default function HeroBanner({ onCTAClick }) {
   const [currentPlatformIndex, setCurrentPlatformIndex] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  // Animated platform rotation effect
+  const platforms = [
+    { name: "TikTok", color: "#FF0050", icon: "🎵", growth: "+27%" },
+    { name: "Instagram", color: "#E4405F", icon: "📸", growth: "+18%" },
+    { name: "Twitter", color: "#1DA1F2", icon: "🐦", growth: "+31%" },
+    { name: "YouTube", color: "#FF0000", icon: "🎬", growth: "+42%" },
+    { name: "LinkedIn", color: "#0077B5", icon: "💼", growth: "+15%" },
+  ];
+
+  const stats = [
+    { value: "10M+", label: "Posts analysés" },
+    { value: "50+", label: "Réseaux suivis" },
+    { value: "99.9%", label: "Précision IA" },
+  ];
+
+  const [viewsCount, setViewsCount] = useState(null);
+
+  
+  useEffect(() => {
+    const value = Math.floor(Math.random() * 90 + 10);
+    setViewsCount(value);
+  }, []);
+
+  // Change la plateforme toutes les 3 secondes
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentPlatformIndex((prev) => (prev + 1) % platforms.length);
-    }, 2000);
-
+    }, 3000);
     return () => clearInterval(interval);
   }, [platforms.length]);
 
-  // Mouse tracking for interactive effects
-  const handleMouseMove = useCallback((e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePosition({
-      x: ((e.clientX - rect.left) / rect.width) * 100,
-      y: ((e.clientY - rect.top) / rect.height) * 100
-    });
-  }, []);
-
   const currentPlatform = platforms[currentPlatformIndex];
 
+  // Styles en ligne pour éviter les problèmes
+  const sectionStyle = {
+    minHeight: "100vh",
+    background:
+      "linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%)",
+    position: "relative",
+    overflow: "hidden",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+
+  const containerStyle = {
+    width: "100%",
+    maxWidth: "1200px",
+    margin: "0 auto",
+    padding: "0 20px",
+    position: "relative",
+    zIndex: 10,
+  };
+
+  const gridStyle = {
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gap: "40px",
+    alignItems: "center",
+  };
+
+  const titleStyle = {
+    fontSize: "3.5rem",
+    fontWeight: "900",
+    color: "white",
+    lineHeight: "1.2",
+    marginBottom: "20px",
+    textAlign: "center",
+  };
+
+  const gradientTextStyle = {
+    background: "linear-gradient(to right, #fbbf24, #ec4899, #8b5cf6)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+  };
+
+  const descriptionStyle = {
+    fontSize: "1.25rem",
+    color: "rgba(255,255,255,0.9)",
+    textAlign: "center",
+    marginBottom: "30px",
+    maxWidth: "600px",
+    margin: "0 auto 30px",
+  };
+
+  const buttonStyle = {
+    padding: "16px 32px",
+    fontSize: "18px",
+    fontWeight: "bold",
+    borderRadius: "12px",
+    border: "none",
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "10px",
+    transition: "transform 0.2s",
+  };
+
+  const primaryButtonStyle = {
+    ...buttonStyle,
+    background: "linear-gradient(to right, #8b5cf6, #ec4899, #ef4444)",
+    color: "white",
+  };
+
+  const secondaryButtonStyle = {
+    ...buttonStyle,
+    background: "rgba(255,255,255,0.2)",
+    color: "white",
+    border: "2px solid rgba(255,255,255,0.3)",
+  };
+
+  const cardStyle = {
+    padding: "24px",
+    background: "rgba(255,255,255,0.95)",
+    borderRadius: "16px",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+    marginBottom: "20px",
+    transition: "transform 0.2s",
+  };
+
+  const platformBoxStyle = {
+    display: "flex",
+    alignItems: "center",
+    gap: "16px",
+    padding: "16px",
+    background: "rgba(255,255,255,0.1)",
+    backdropFilter: "blur(10px)",
+    borderRadius: "12px",
+    border: "1px solid rgba(255,255,255,0.2)",
+    marginBottom: "30px",
+    maxWidth: "400px",
+    margin: "0 auto 30px",
+  };
+
   return (
-    <>
-      <style jsx>{`
-        @keyframes blob {
-          0%, 100% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-
-        @keyframes text-glow {
-          0%, 100% { text-shadow: 0 0 20px rgba(139, 92, 246, 0.5); }
-          50% { text-shadow: 0 0 40px rgba(236, 72, 153, 0.8); }
-        }
-
-        @keyframes card-float {
-          0%, 100% { transform: translateY(0px) rotateY(0deg); }
-          50% { transform: translateY(-10px) rotateY(5deg); }
-        }
-
-        .blob-animation {
-          animation: blob 7s infinite;
-        }
-
-        .text-glow {
-          animation: text-glow 3s ease-in-out infinite;
-        }
-
-        .card-float {
-          animation: card-float 4s ease-in-out infinite;
-        }
-
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-
-        .preserve-3d {
-          transform-style: preserve-3d;
-        }
-      `}</style>
-
-      <section 
-        className="relative min-h-screen overflow-hidden"
-        onMouseMove={handleMouseMove}
+    <section style={sectionStyle}>
+      {/* Orbes de fond simples */}
+      <div
         style={{
-          background: `
-            radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
-            rgba(139, 92, 246, 0.3) 0%, 
-            rgba(236, 72, 153, 0.2) 25%, 
-            rgba(59, 130, 246, 0.1) 50%, 
-            transparent 70%),
-            linear-gradient(135deg, 
-            #667eea 0%, 
-            #764ba2 25%, 
-            #f093fb 50%, 
-            #f5576c 75%, 
-            #4facfe 100%)
-          `
+          position: "absolute",
+          top: "10%",
+          left: "10%",
+          width: "200px",
+          height: "200px",
+          background: "#FF0050",
+          borderRadius: "50%",
+          opacity: "0.1",
+          filter: "blur(80px)",
         }}
-      >
-        {/* Animated background elements */}
-        <div className="absolute inset-0">
-          {platforms.map((platform, index) => (
-            <FloatingOrb 
-              key={platform.name}
-              platform={platform}
-              delay={index * 0.5}
-              size={index % 3 === 0 ? 'lg' : index % 2 === 0 ? 'md' : 'sm'}
-            />
-          ))}
-          
-          {/* Geometric shapes */}
-          <div className="absolute top-20 left-10 w-20 h-20 bg-yellow-400 rounded-full opacity-20 blob-animation"></div>
-          <div className="absolute bottom-32 right-16 w-16 h-16 bg-pink-500 opacity-30" 
-               style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }}></div>
-          <div className="absolute top-1/2 right-10 w-24 h-24 bg-blue-400 opacity-25 rotate-45"></div>
-        </div>
+      ></div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: "10%",
+          right: "10%",
+          width: "300px",
+          height: "300px",
+          background: "#1DA1F2",
+          borderRadius: "50%",
+          opacity: "0.1",
+          filter: "blur(100px)",
+        }}
+      ></div>
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "250px",
+          height: "250px",
+          background: "#8b5cf6",
+          borderRadius: "50%",
+          opacity: "0.1",
+          filter: "blur(90px)",
+          transform: "translate(-50%, -50%)",
+        }}
+      ></div>
 
-        {/* Main content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            
-            {/* Left column - Text content */}
-            <div className="space-y-8">
-              <div className="space-y-6">
-                <div className="flex items-center space-x-3">
-                  <span className="px-4 py-2 bg-gradient-to-r from-green-400 to-blue-500 text-white text-sm font-semibold rounded-full animate-pulse">
-                    🔥 Trending Now
-                  </span>
-                  <span className="text-white/80 font-medium">
-                    +{Math.floor(Math.random() * 1000)}K analyses today
-                  </span>
-                </div>
-                
-                <h1 className="text-5xl lg:text-7xl font-black text-white leading-tight">
-                  <span className="text-glow">Découvre</span>
-                  <br />
-                  <span className="bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 bg-clip-text text-transparent">
-                    les tendances
-                  </span>
-                  <br />
-                  <span className="text-white">virales</span>
-                </h1>
-                
-                <p className="text-xl text-white/90 font-medium max-w-2xl">
-                  Intelligence artificielle pour analyser et prédire les tendances 
-                  sur <span className="font-bold text-yellow-300">tous les réseaux sociaux</span> en temps réel
-                </p>
+      <div style={containerStyle}>
+        <div style={{ paddingTop: "80px", paddingBottom: "80px" }} />
+        <div style={gridStyle}>
+          {/* Section principale */}
+          <div>
+            {/* Badge animé */}
+            <div style={{ textAlign: "center", marginBottom: "30px" }}>
+              <span
+                style={{
+                  display: "inline-block",
+                  padding: "8px 20px",
+                  background: "rgba(16, 185, 129, 0.2)",
+                  color: "#10b981",
+                  borderRadius: "50px",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  border: "1px solid rgba(16, 185, 129, 0.3)",
+                }}
+              >
+                🔥 +922K analyses aujourdhui
+              </span>
+            </div>
+
+            {/* Titre */}
+            <h1 style={titleStyle}>
+              <div>Découvre</div>
+              <div style={{ ...gradientTextStyle }}>les tendances</div>
+              <div style={{ display: "block" }}>virales</div>
+            </h1>
+
+            {/* Description */}
+            <p style={descriptionStyle}>
+              Intelligence artificielle pour analyser et prédire les tendances
+              sur{" "}
+              <span style={{ fontWeight: "bold", color: "#fbbf24" }}>
+                tous les réseaux sociaux
+              </span>{" "}
+              en temps réel
+            </p>
+
+            {/* Indicateur de plateforme */}
+            <div style={platformBoxStyle}>
+              <div
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  background: currentPlatform.color,
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "24px",
+                  transition: "all 0.5s",
+                }}
+              >
+                {currentPlatform.icon}
               </div>
-
-              {/* Platform indicator */}
-              <div className="flex items-center space-x-4 p-4 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
-                <div 
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-2xl font-bold transition-all duration-500"
-                  style={{ backgroundColor: currentPlatform.color }}
+              <div style={{ flex: 1 }}>
+                <div
+                  style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}
                 >
-                  {currentPlatform.icon}
+                  Analysant maintenant
                 </div>
-                <div>
-                  <p className="text-white font-semibold">Analysant maintenant</p>
-                  <p className="text-white/80">{currentPlatform.name}</p>
-                </div>
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button 
-                  onClick={onCTAClick}
-                  className="group px-8 py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-red-500 text-white font-bold rounded-2xl text-lg hover:shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 relative overflow-hidden"
+                <div
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                  }}
                 >
-                  <span className="relative z-10 flex items-center justify-center space-x-3">
-                    <span>🚀</span>
-                    <span>Analyser maintenant</span>
-                    <span className="group-hover:translate-x-1 transition-transform">→</span>
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-700 via-pink-700 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </button>
-                
-                <button className="px-8 py-4 bg-white/20 backdrop-blur-sm text-white font-semibold rounded-2xl border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-105">
-                  <span className="flex items-center justify-center space-x-3">
-                    <span>📊</span>
-                    <span>Voir la démo</span>
-                  </span>
-                </button>
+                  {currentPlatform.name}
+                </div>
               </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-6 pt-8">
-                {HERO_STATS.map((stat, index) => (
-                  <div key={index} className="text-center">
-                    <div className="text-2xl font-black text-white">{stat.value}</div>
-                    <div className="text-white/70 text-sm">{stat.label}</div>
-                  </div>
-                ))}
+              <div style={{ textAlign: "right" }}>
+                <div style={{ color: "#10b981", fontWeight: "bold" }}>
+                  {currentPlatform.growth}
+                </div>
+                <div
+                  style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}
+                >
+                  cette semaine
+                </div>
               </div>
             </div>
 
-            {/* Right column - Visual elements */}
-            <div className="perspective-1000">
-              <div className="preserve-3d">
-                
-                {/* Social media cards */}
-                <div className="space-y-6">
-                  {platforms.slice(0, 3).map((platform, index) => (
-                    <div 
-                      key={platform.name}
-                      className={`
-                        card-float p-6 bg-white/95 backdrop-blur-sm rounded-3xl 
-                        shadow-2xl border border-white/20 hover:shadow-purple-500/20
-                        transition-all duration-500 hover:scale-105
-                        ${index === 1 ? 'ml-12' : index === 2 ? 'mr-12' : ''}
-                      `}
-                      style={{ 
-                        animationDelay: `${index * 0.5}s`,
-                        transform: `rotateY(${index * 2}deg)`
+            {/* Boutons */}
+            <div
+              style={{
+                display: "flex",
+                gap: "16px",
+                justifyContent: "center",
+                marginBottom: "40px",
+                flexWrap: "wrap",
+              }}
+            >
+              <button
+                onClick={onCTAClick}
+                style={primaryButtonStyle}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.transform = "scale(1.05)")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.transform = "scale(1)")
+                }
+              >
+                <span>🚀</span>
+                <span>Analyser maintenant</span>
+              </button>
+
+              <button
+                style={secondaryButtonStyle}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.transform = "scale(1.05)")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.transform = "scale(1)")
+                }
+              >
+                <span>📊</span>
+                <span>Voir la démo</span>
+              </button>
+            </div>
+
+            {/* Statistiques */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "20px",
+                marginBottom: "40px",
+                maxWidth: "500px",
+                margin: "0 auto 40px",
+              }}
+            >
+              {stats.map((stat, index) => (
+                <div key={index} style={{ textAlign: "center" }}>
+                  <div
+                    style={{
+                      fontSize: "2rem",
+                      fontWeight: "900",
+                      color: "white",
+                    }}
+                  >
+                    {stat.value}
+                  </div>
+                  <div
+                    style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}
+                  >
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Cartes des plateformes */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: "20px",
+                maxWidth: "900px",
+                margin: "0 auto",
+              }}
+            >
+              {platforms.slice(0, 3).map((platform) => (
+                <div
+                  key={platform.name}
+                  style={cardStyle}
+                  onMouseOver={(e) =>
+                    (e.currentTarget.style.transform = "translateY(-5px)")
+                  }
+                  onMouseOut={(e) =>
+                    (e.currentTarget.style.transform = "translateY(0)")
+                  }
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
                       }}
                     >
-                      <div className="flex items-center space-x-4">
-                        <div 
-                          className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl"
-                          style={{ backgroundColor: platform.color }}
-                        >
-                          {platform.icon}
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="font-bold text-gray-800">{platform.name}</h3>
-                          <p className="text-gray-600">+{Math.floor(Math.random() * 50)}% cette semaine</p>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-black text-gray-800">
-                            {Math.floor(Math.random() * 100)}M
-                          </div>
-                          <div className="text-sm text-gray-500">vues</div>
-                        </div>
+                      <div
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          background: platform.color,
+                          borderRadius: "12px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "24px",
+                        }}
+                      >
+                        {platform.icon}
                       </div>
-                      
-                      {/* Mini chart simulation */}
-                      <div className="mt-4 h-16 bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl relative overflow-hidden">
-                        <div 
-                          className="absolute bottom-0 left-0 h-full bg-gradient-to-r opacity-60 rounded-xl transition-all duration-1000"
-                          style={{ 
-                            backgroundColor: platform.color,
-                            width: `${30 + Math.random() * 60}%`
+                      <div>
+                        <div
+                          style={{
+                            fontWeight: "bold",
+                            color: "#1f2937",
+                            fontSize: "16px",
                           }}
-                        ></div>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-xs font-semibold text-gray-600">
-                            Tendance ↗️ +{Math.floor(Math.random() * 30)}%
-                          </span>
+                        >
+                          {platform.name}
+                        </div>
+                        <div style={{ color: "#6b7280", fontSize: "14px" }}>
+                          <span style={{ color: "#10b981" }}>↗</span>{" "}
+                          {platform.growth} cette semaine
                         </div>
                       </div>
                     </div>
-                  ))}
-                </div>
+                    <div style={{ textAlign: "right" }}>
+                      {viewsCount !== null && (
+                        <div
+                          style={{
+                            fontSize: "24px",
+                            fontWeight: "900",
+                            color: "#1f2937",
+                          }}
+                        >
+                          {viewsCount}M
+                        </div>
+                      )}
 
-                {/* Floating notification */}
-                <div className="absolute -top-4 -right-4 p-4 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-2xl shadow-lg animate-bounce">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xl">🎯</span>
-                    <div>
-                      <div className="font-bold text-sm">Tendance détectée!</div>
-                      <div className="text-xs opacity-90">#AI trending +2000%</div>
+                      <div style={{ fontSize: "12px", color: "#6b7280" }}>
+                        vues
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Mini graphique */}
+                  <div
+                    style={{
+                      height: "60px",
+                      background: "#f3f4f6",
+                      borderRadius: "8px",
+                      overflow: "hidden",
+                      position: "relative",
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        display: "flex",
+                        alignItems: "flex-end",
+                        height: "100%",
+                        padding: "4px",
+                        gap: "4px",
+                      }}
+                    >
+                      {[...Array(7)].map((_, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            flex: 1,
+                            background: platform.color,
+                            height: `${30 + Math.random() * 60}%`,
+                            opacity: 0.7,
+                            borderRadius: "4px 4px 0 0",
+                          }}
+                        ></div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
-          </div>
+      {/* Indicateur de scroll */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: "30px",
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}
+      >
+        <div
+          style={{
+            width: "30px",
+            height: "50px",
+            border: "2px solid rgba(255,255,255,0.3)",
+            borderRadius: "25px",
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "10px",
+          }}
+        >
+          <div
+            style={{
+              width: "4px",
+              height: "10px",
+              background: "rgba(255,255,255,0.8)",
+              borderRadius: "2px",
+              animation: "bounce 2s infinite",
+            }}
+          ></div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

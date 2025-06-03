@@ -1,7 +1,7 @@
 // /src/app/components/index.js
 /**
- * Barrel export for all components
- * Simplifies imports throughout the application
+ * Fichier d'export centralisé pour tous les composants
+ * Cela permet d'importer facilement les composants depuis un seul endroit
  */
 
 export { default as Navbar } from './Navbar';

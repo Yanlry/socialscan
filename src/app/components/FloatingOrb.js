@@ -2,44 +2,42 @@
 "use client";
 import React from 'react';
 
-/**
- * FloatingOrb: Animated background element for visual appeal
- * Creates dynamic floating orbs with social media platform colors
- */
 export default function FloatingOrb({ platform, delay, size }) {
-  const sizeClasses = {
-    sm: 'w-16 h-16',
-    md: 'w-24 h-24', 
-    lg: 'w-32 h-32'
+  // Pour l'instant, on retourne null pour éviter tout problème
+  // Cela désactive temporairement les orbes flottants
+  return null;
+}
+
+/* Version alternative si vous voulez garder les orbes (décommentez si nécessaire) :
+
+export default function FloatingOrb({ platform, delay, size }) {
+  // Tailles en pixels directs
+  const sizes = {
+    sm: 96,  // 24 * 4
+    md: 128, // 32 * 4
+    lg: 160  // 40 * 4
   };
 
-  return (
-    <>
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(180deg); }
-        }
+  const orbSize = sizes[size] || sizes.md;
+  
+  // Position aléatoire
+  const randomTop = Math.random() * 70 + 10;
+  const randomLeft = Math.random() * 70 + 10;
 
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-      `}</style>
-      
-      <div 
-        className={`
-          absolute rounded-full opacity-20 blur-sm
-          ${sizeClasses[size]}
-          animate-float
-        `}
-        style={{
-          backgroundColor: platform.color,
-          animationDelay: `${delay}s`,
-          animationDuration: `${4 + Math.random() * 2}s`,
-          top: `${Math.random() * 80}%`,
-          left: `${Math.random() * 80}%`
-        }}
-      />
-    </>
-  );
+  const orbStyle = {
+    position: 'absolute',
+    width: `${orbSize}px`,
+    height: `${orbSize}px`,
+    borderRadius: '50%',
+    backgroundColor: platform.color,
+    opacity: 0.2,
+    filter: 'blur(48px)',
+    top: `${randomTop}%`,
+    left: `${randomLeft}%`,
+    pointerEvents: 'none'
+  };
+
+  return <div style={orbStyle}></div>;
 }
+
+*/
