@@ -133,7 +133,7 @@ export default function HeroBanner({ onCTAClick }) {
       setCurrentTrendingVideo((prev) => (prev + 1) % trendingVideos.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [trendingVideos.length]);
 
   // Rotation des hashtags
   useEffect(() => {
@@ -141,7 +141,7 @@ export default function HeroBanner({ onCTAClick }) {
       setCurrentHashtag((prev) => (prev + 1) % trendingHashtags.length);
     }, 3500);
     return () => clearInterval(interval);
-  }, []);
+  }, [trendingHashtags.length]);
 
   // Rotation des influenceurs
   useEffect(() => {
@@ -149,7 +149,7 @@ export default function HeroBanner({ onCTAClick }) {
       setCurrentInfluencer((prev) => (prev + 1) % topInfluencers.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [topInfluencers.length]);
 
   // Métriques live qui changent
   useEffect(() => {
