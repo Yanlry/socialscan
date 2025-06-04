@@ -11,10 +11,8 @@ import {
 } from "lucide-react";
 
 export default function Navbar({ onMenuItemClick }) {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [activeItem, setActiveItem] = useState("home");
   const [isDesktop, setIsDesktop] = useState(false);
-
   const [isLargeDesktop, setIsLargeDesktop] = useState(false);
 
   useEffect(() => {
@@ -28,15 +26,6 @@ export default function Navbar({ onMenuItemClick }) {
   }, []);
 
   const isMobile = !isDesktop;
-
-  // Détecte le scroll pour changer l'apparence de la navbar
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const navItems = [
     { id: "home", label: "Accueil", icon: <Home size={18} /> },
@@ -53,105 +42,8 @@ export default function Navbar({ onMenuItemClick }) {
     }
   };
 
-  // Styles en ligne pour éviter les problèmes
-  const navStyle = {
-    position: "fixed",
-    top: 0,
-    width: "100%",
-    zIndex: 50,
-    transition: "all 0.3s ease",
-    padding: isScrolled ? "16px 0" : "24px 0",
-  };
-
-  const containerStyle = {
-    maxWidth: "1300px",
-    margin: "0 auto",
-    padding: "0 24px",
-  };
-
-  const navBarStyle = {
-    backdropFilter: "blur(20px)",
-    WebkitBackdropFilter: "blur(20px)",
-    borderRadius: "50px",
-    padding: "16px 32px",
-    transition: "all 0.3s ease",
-    backgroundColor: isScrolled ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.1)",
-    border: isScrolled ? "none" : "1px solid rgba(255,255,255,0.2)",
-    boxShadow: isScrolled ? "0 20px 40px rgba(139,92,246,0.2)" : "none",
-  };
-
-  const flexContainerStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  };
-
-  const logoContainerStyle = {
-    display: "flex",
-    alignItems: "center",
-    gap: "16px",
-  };
-
-  const logoIconStyle = {
-    position: "relative",
-    width: "48px",
-    height: "48px",
-    borderRadius: "50%",
-    background: "linear-gradient(to right, #8b5cf6, #ec4899)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    transition: "transform 0.3s ease",
-    cursor: "pointer",
-  };
-
-  const liveBadgeStyle = {
-    position: "absolute",
-    top: "-4px",
-    right: "-4px",
-    width: "16px",
-    height: "16px",
-    backgroundColor: "#ef4444",
-    borderRadius: "50%",
-    animation: "pulse 2s infinite",
-  };
-
-  const titleStyle = {
-    fontSize: "24px",
-    fontWeight: "900",
-    color: "white",
-    margin: 0,
-  };
-
-  const liveTextStyle = {
-    padding: "4px 12px",
-    backgroundColor: "#ef4444",
-    color: "white",
-    fontSize: "12px",
-    borderRadius: "50px",
-    fontWeight: "600",
-    animation: "pulse 2s infinite",
-  };
-
-  const menuStyle = {
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    listStyle: "none",
-    margin: 0,
-    padding: 0,
-  };
-
-  const menuItemStyle = (isActive) => ({
-    padding: "12px 24px",
-    borderRadius: "50px",
-    fontWeight: "500",
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    transition: "all 0.3s ease",
-    border: "none",
-    cursor: "pointer",
+  const getMenuItemStyle = (isActive) => ({
+    ...styles.menuItem,
     background: isActive
       ? "linear-gradient(to right, #8b5cf6, #ec4899)"
       : "transparent",
@@ -160,53 +52,25 @@ export default function Navbar({ onMenuItemClick }) {
     transform: isActive ? "scale(1.05)" : "scale(1)",
   });
 
-  const ctaButtonStyle = {
-    padding: "12px 24px",
-    background: "linear-gradient(to right, #3b82f6, #8b5cf6)",
-    color: "white",
-    fontWeight: "600",
-    borderRadius: "50px",
-    border: "none",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-  };
-
-  const mobileMenuStyle = {
-    display: "none",
-    background: "none",
-    border: "none",
-    color: "white",
-    cursor: "pointer",
-  };
-
   return (
-    <nav style={navStyle}>
+    <nav style={styles.nav}>
       {/* Animation pulse pour le badge LIVE */}
       <style jsx>{`
         @keyframes pulse {
-          0% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.5;
-          }
-          100% {
-            opacity: 1;
-          }
+          0% { opacity: 1; }
+          50% { opacity: 0.5; }
+          100% { opacity: 1; }
         }
       `}</style>
 
-      <div style={containerStyle}>
-        <div style={navBarStyle}>
-          <div style={flexContainerStyle}>
+      <div style={styles.container}>
+        <div style={styles.navBar}>
+          <div style={styles.flexContainer}>
             {/* Logo et marque */}
-            <div style={logoContainerStyle}>
+            <div style={styles.logoContainer}>
               {/* Icône animée */}
               <div
-                style={logoIconStyle}
+                style={styles.logoIcon}
                 onMouseOver={(e) =>
                   (e.currentTarget.style.transform = "scale(1.1)")
                 }
@@ -215,28 +79,25 @@ export default function Navbar({ onMenuItemClick }) {
                 }
               >
                 <BarChart2 size={24} className="text-white" />
-
                 {/* Badge Live animé */}
-                <div style={liveBadgeStyle}></div>
+                <div style={styles.liveBadge}></div>
               </div>
 
               {/* Nom de l'app */}
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "8px" }}
-              >
-                <h1 style={titleStyle}>TrendScope</h1>
-                <span style={liveTextStyle}>LIVE</span>
+              <div style={styles.brandContainer}>
+                <h1 style={styles.title}>TrendScope</h1>
+                <span style={styles.liveText}>LIVE</span>
               </div>
             </div>
 
             {/* Menu de navigation - visible sur desktop uniquement */}
             {isDesktop && (
-              <ul style={menuStyle}>
+              <ul style={styles.menu}>
                 {navItems.map((item) => (
-                  <li key={item.id} style={{ listStyle: "none" }}>
+                  <li key={item.id} style={styles.menuListItem}>
                     <button
                       onClick={() => handleItemClick(item)}
-                      style={menuItemStyle(activeItem === item.id)}
+                      style={getMenuItemStyle(activeItem === item.id)}
                       onMouseOver={(e) => {
                         if (activeItem !== item.id) {
                           e.currentTarget.style.backgroundColor =
@@ -251,7 +112,7 @@ export default function Navbar({ onMenuItemClick }) {
                         }
                       }}
                     >
-                      <span style={{ fontSize: "18px" }}>{item.icon}</span>
+                      <span style={styles.menuIcon}>{item.icon}</span>
                       <span>{item.label}</span>
                     </button>
                   </li>
@@ -262,7 +123,7 @@ export default function Navbar({ onMenuItemClick }) {
             {/* Bouton CTA - visible sur desktop large uniquement */}
             {isLargeDesktop && (
               <button
-                style={ctaButtonStyle}
+                style={styles.ctaButton}
                 onMouseOver={(e) => {
                   e.currentTarget.style.boxShadow =
                     "0 20px 40px rgba(59,130,246,0.25)";
@@ -280,9 +141,9 @@ export default function Navbar({ onMenuItemClick }) {
 
             {/* Menu mobile - visible sur mobile uniquement */}
             {isMobile && (
-              <button style={mobileMenuStyle}>
+              <button style={styles.mobileMenu}>
                 <svg
-                  style={{ width: "24px", height: "24px" }}
+                  style={styles.mobileMenuIcon}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -302,3 +163,151 @@ export default function Navbar({ onMenuItemClick }) {
     </nav>
   );
 }
+
+// ================================
+// STYLES CSS (séparés du code)
+// ================================
+const styles = {
+  // SOLUTION : Position absolute qui monte avec la page ET garde le dégradé
+  nav: {
+    position: "absolute", // ← SOLUTION ! Absolute = monte avec la page + se superpose au dégradé
+    top: "0", // ← Tout en haut de la page
+    left: "0", // ← Commence à gauche
+    right: "0", // ← Va jusqu'à droite
+    width: "100%", // ← Prend toute la largeur
+    zIndex: "100", // ← Au-dessus du contenu mais pas trop haut
+    padding: "24px 0", // ← Espacement fixe
+  },
+
+  // Conteneur
+  container: {
+    maxWidth: "1300px",
+    margin: "0 auto",
+    padding: "0 24px",
+  },
+
+  // Barre de navigation - apparence fixe (ne change jamais)
+  navBar: {
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    borderRadius: "50px",
+    padding: "16px 32px",
+    // APPARENCE FIXE qui ne change jamais
+    backgroundColor: "rgba(255,255,255,0.1)",
+    border: "1px solid rgba(255,255,255,0.2)",
+    boxShadow: "none",
+    position: "relative",
+    width: "100%",
+  },
+
+  // Layout flex
+  flexContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  // Logo et marque
+  logoContainer: {
+    display: "flex",
+    alignItems: "center",
+    gap: "16px",
+  },
+  logoIcon: {
+    position: "relative",
+    width: "48px",
+    height: "48px",
+    borderRadius: "50%",
+    background: "linear-gradient(to right, #8b5cf6, #ec4899)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    transition: "transform 0.3s ease",
+    cursor: "pointer",
+  },
+  liveBadge: {
+    position: "absolute",
+    top: "-4px",
+    right: "-4px",
+    width: "16px",
+    height: "16px",
+    backgroundColor: "#ef4444",
+    borderRadius: "50%",
+    animation: "pulse 2s infinite",
+  },
+  brandContainer: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+  },
+  title: {
+    fontSize: "24px",
+    fontWeight: "900",
+    color: "white",
+    margin: 0,
+  },
+  liveText: {
+    padding: "4px 12px",
+    backgroundColor: "#ef4444",
+    color: "white",
+    fontSize: "12px",
+    borderRadius: "50px",
+    fontWeight: "600",
+    animation: "pulse 2s infinite",
+  },
+
+  // Menu de navigation
+  menu: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    listStyle: "none",
+    margin: 0,
+    padding: 0,
+  },
+  menuListItem: {
+    listStyle: "none",
+  },
+  menuItem: {
+    padding: "12px 24px",
+    borderRadius: "50px",
+    fontWeight: "500",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    transition: "all 0.3s ease",
+    border: "none",
+    cursor: "pointer",
+  },
+  menuIcon: {
+    fontSize: "18px",
+  },
+
+  // Bouton CTA
+  ctaButton: {
+    padding: "12px 24px",
+    background: "linear-gradient(to right, #3b82f6, #8b5cf6)",
+    color: "white",
+    fontWeight: "600",
+    borderRadius: "50px",
+    border: "none",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+  },
+
+  // Menu mobile
+  mobileMenu: {
+    display: "none",
+    background: "none",
+    border: "none",
+    color: "white",
+    cursor: "pointer",
+  },
+  mobileMenuIcon: {
+    width: "24px",
+    height: "24px",
+  },
+};
