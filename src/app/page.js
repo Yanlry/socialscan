@@ -1,4 +1,3 @@
-// /src/app/page.js
 "use client";
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
@@ -8,7 +7,6 @@ export default function HomePage() {
   const [selectedMenuItem, setSelectedMenuItem] = useState('');
   const [showDemo, setShowDemo] = useState(false);
 
-  // Gère les clics sur les éléments du menu
   const handleMenuItemClick = (item) => {
     setSelectedMenuItem(item.label);
     console.log(`Navigation vers: ${item.label}`);
@@ -17,7 +15,6 @@ export default function HomePage() {
     // Par exemple, faire défiler vers une section ou changer de page
   };
 
-  // Gère le clic sur le bouton CTA principal
   const handleCTAClick = () => {
     console.log('Démarrage de l\'analyse...');
     setShowDemo(true);

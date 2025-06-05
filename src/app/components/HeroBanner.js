@@ -1,16 +1,15 @@
-// /src/app/components/HeroBanner.js
 "use client";
 import React, { useState, useEffect } from "react";
-import { 
-  TrendingUp, 
-  Eye, 
-  Users, 
+import {
+  TrendingUp,
+  Eye,
+  Users,
   Clock,
-  Brain, 
-  Play, 
-  Hash, 
-  Star, 
-  Activity, 
+  Brain,
+  Play,
+  Hash,
+  Star,
+  Activity,
   Heart,
   Globe,
   MessageCircle,
@@ -27,29 +26,70 @@ import {
   Instagram,
   Twitter,
   Linkedin,
-  Facebook
+  Facebook,
 } from "lucide-react";
 
 export default function HeroBanner({ onCTAClick }) {
-  // ===== ÉTATS EXISTANTS =====
   const [currentPlatformIndex, setCurrentPlatformIndex] = useState(0);
-  const [viewsCount, setViewsCount] = useState(null);
-  const [chartHeights, setChartHeights] = useState([]);
-
-  // ===== NOUVEAUX ÉTATS POUR LES NOUVELLES FONCTIONNALITÉS =====
   const [currentTrendingVideo, setCurrentTrendingVideo] = useState(0);
   const [currentHashtag, setCurrentHashtag] = useState(0);
   const [liveMetrics, setLiveMetrics] = useState({});
   const [currentInfluencer, setCurrentInfluencer] = useState(0);
+  const [particlePositions, setParticlePositions] = useState([]);
+  const [waveAnimation, setWaveAnimation] = useState(0);
+  const [hologramEffect, setHologramEffect] = useState(0);
+  const [matrixRain, setMatrixRain] = useState([]);
+  const [opacities, setOpacities] = useState([]);
 
-  // ===== DONNÉES AVEC ICÔNES LUCIDE =====
   const platforms = [
-    { name: "Facebook", color: "#1877f2", icon: Facebook, growth: "+15%" },
-    { name: "TikTok", color: "#fe2c55", icon: Monitor, growth: "+27%" },
-    { name: "Instagram", color: "#e4405f", icon: Instagram, growth: "+18%" },
-    { name: "Twitter", color: "#1da1f2", icon: Twitter, growth: "+31%" },
-    { name: "YouTube", color: "#ff0000", icon: Youtube, growth: "+42%" },
-    { name: "LinkedIn", color: "#0077b5", icon: Linkedin, growth: "+15%" },
+    {
+      name: "Facebook",
+      color: "#1877f2",
+      icon: Facebook,
+      growth: "+15%",
+      users: "2.9B",
+      engagement: "4.2%",
+    },
+    {
+      name: "TikTok",
+      color: "#fe2c55",
+      icon: Monitor,
+      growth: "+27%",
+      users: "1.1B",
+      engagement: "5.8%",
+    },
+    {
+      name: "Instagram",
+      color: "#e4405f",
+      icon: Instagram,
+      growth: "+18%",
+      users: "2.0B",
+      engagement: "3.9%",
+    },
+    {
+      name: "Twitter",
+      color: "#1da1f2",
+      icon: Twitter,
+      growth: "+31%",
+      users: "450M",
+      engagement: "2.1%",
+    },
+    {
+      name: "YouTube",
+      color: "#ff0000",
+      icon: Youtube,
+      growth: "+42%",
+      users: "2.7B",
+      engagement: "6.2%",
+    },
+    {
+      name: "LinkedIn",
+      color: "#0077b5",
+      icon: Linkedin,
+      growth: "+15%",
+      users: "900M",
+      engagement: "3.4%",
+    },
   ];
 
   const stats = [
@@ -58,67 +98,142 @@ export default function HeroBanner({ onCTAClick }) {
     { value: "99.9%", label: "Précision IA", icon: Brain },
   ];
 
-  // ===== NOUVELLES DONNÉES ÉPURÉES =====
-  
-  // Vidéos virales trending
   const trendingVideos = [
-    { 
-      title: "Danse TikTok #VirtualVibes", 
-      platform: "TikTok", 
-      views: "2.8M", 
+    {
+      title: "Danse TikTok #VirtualVibes",
+      platform: "TikTok",
+      views: "2.8M",
       growth: "+340%",
       icon: Play,
-      creator: "@danceking23"
+      creator: "@danceking23",
+      score: 95,
+      category: "Entertainment",
     },
-    { 
-      title: "Recette 5min Pasta", 
-      platform: "Instagram", 
-      views: "1.2M", 
+    {
+      title: "Recette 5min Pasta",
+      platform: "Instagram",
+      views: "1.2M",
       growth: "+210%",
       icon: Heart,
-      creator: "@chef_rapide"
+      creator: "@chef_rapide",
+      score: 88,
+      category: "Food",
     },
-    { 
-      title: "Life Hack Productivité", 
-      platform: "YouTube", 
-      views: "890K", 
+    {
+      title: "Life Hack Productivité",
+      platform: "YouTube",
+      views: "890K",
       growth: "+156%",
       icon: Zap,
-      creator: "@productivity_guru"
-    }
+      creator: "@productivity_guru",
+      score: 92,
+      category: "Education",
+    },
+    {
+      title: "Workout Challenge",
+      platform: "Instagram",
+      views: "1.5M",
+      growth: "+280%",
+      icon: Activity,
+      creator: "@fitnessguru",
+      score: 90,
+      category: "Fitness",
+    },
   ];
 
-  // Hashtags trending
   const trendingHashtags = [
-    { tag: "#IA2024", count: "1.2M", platform: "Twitter", growth: "+89%", icon: Brain },
-    { tag: "#EcoFriendly", count: "890K", platform: "Instagram", growth: "+67%", icon: Globe },
-    { tag: "#WorkFromHome", count: "2.1M", platform: "LinkedIn", growth: "+45%", icon: Monitor },
+    {
+      tag: "#IA2024",
+      count: "1.2M",
+      platform: "Twitter",
+      growth: "+89%",
+      icon: Brain,
+      sentiment: "positive",
+      reach: "45M",
+    },
+    {
+      tag: "#EcoFriendly",
+      count: "890K",
+      platform: "Instagram",
+      growth: "+67%",
+      icon: Globe,
+      sentiment: "positive",
+      reach: "32M",
+    },
+    {
+      tag: "#WorkFromHome",
+      count: "2.1M",
+      platform: "LinkedIn",
+      growth: "+45%",
+      icon: Monitor,
+      sentiment: "neutral",
+      reach: "78M",
+    },
+    {
+      tag: "#TechInnovation",
+      count: "650K",
+      platform: "Twitter",
+      growth: "+125%",
+      icon: Zap,
+      sentiment: "positive",
+      reach: "28M",
+    },
   ];
 
-  // Influenceurs top
   const topInfluencers = [
-    { name: "Emma Watson", followers: "58.2M", engagement: "4.2%", platform: "Instagram", icon: Star },
-    { name: "Tech Review Pro", followers: "12.8M", engagement: "8.1%", platform: "YouTube", icon: Monitor },
-    { name: "FoodieQueen", followers: "3.4M", engagement: "12.5%", platform: "TikTok", icon: Heart }
+    {
+      name: "Emma Watson",
+      followers: "58.2M",
+      engagement: "4.2%",
+      platform: "Instagram",
+      icon: Star,
+      tier: "Mega",
+      category: "Lifestyle",
+    },
+    {
+      name: "Tech Review Pro",
+      followers: "12.8M",
+      engagement: "8.1%",
+      platform: "YouTube",
+      icon: Monitor,
+      tier: "Macro",
+      category: "Technology",
+    },
+    {
+      name: "FoodieQueen",
+      followers: "3.4M",
+      engagement: "12.5%",
+      platform: "TikTok",
+      icon: Heart,
+      tier: "Macro",
+      category: "Food",
+    },
+    {
+      name: "Gaming Master",
+      followers: "8.9M",
+      engagement: "15.2%",
+      platform: "YouTube",
+      icon: Play,
+      tier: "Macro",
+      category: "Gaming",
+    },
   ];
 
-  // Métriques live
   const liveMetricsData = [
-    { label: "Posts/seconde", value: "2,847", icon: Activity },
-    { label: "Engagement moyen", value: "4.2%", icon: Heart },
-    { label: "Nombre de ventes", value: "47M", icon: Globe }
+    { label: "Posts/seconde", value: "2,847", icon: Activity, trend: "+12%" },
+    { label: "Engagement moyen", value: "4.2%", icon: Heart, trend: "+8%" },
+    { label: "Portée globale", value: "47M", icon: Globe, trend: "+23%" },
+    {
+      label: "Interactions/min",
+      value: "156K",
+      icon: MessageCircle,
+      trend: "+15%",
+    },
   ];
 
-  // ===== EFFETS (IDENTIQUES) =====
   useEffect(() => {
-    const value = Math.floor(Math.random() * 90 + 10);
-    setViewsCount(value);
-  }, [trendingVideos.length]);
-
-  useEffect(() => {
-    const heights = Array.from({ length: 7 }, () => 30 + Math.random() * 60);
-    setChartHeights(heights);
-  }, [trendingVideos.length]);
+    setOpacities(Array.from({ length: 25 }, () => Math.random()));
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -127,7 +242,6 @@ export default function HeroBanner({ onCTAClick }) {
     return () => clearInterval(interval);
   }, [platforms.length]);
 
-  // Rotation des vidéos trending
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTrendingVideo((prev) => (prev + 1) % trendingVideos.length);
@@ -135,7 +249,6 @@ export default function HeroBanner({ onCTAClick }) {
     return () => clearInterval(interval);
   }, [trendingVideos.length]);
 
-  // Rotation des hashtags
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentHashtag((prev) => (prev + 1) % trendingHashtags.length);
@@ -143,7 +256,6 @@ export default function HeroBanner({ onCTAClick }) {
     return () => clearInterval(interval);
   }, [trendingHashtags.length]);
 
-  // Rotation des influenceurs
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentInfluencer((prev) => (prev + 1) % topInfluencers.length);
@@ -151,22 +263,85 @@ export default function HeroBanner({ onCTAClick }) {
     return () => clearInterval(interval);
   }, [topInfluencers.length]);
 
-  // Métriques live qui changent
   useEffect(() => {
     const interval = setInterval(() => {
       setLiveMetrics({
         posts: Math.floor(Math.random() * 1000 + 2000),
         mentions: Math.floor(Math.random() * 50 + 100),
         engagement: (Math.random() * 2 + 3).toFixed(1),
-        reach: Math.floor(Math.random() * 20 + 40)
+        reach: Math.floor(Math.random() * 20 + 40),
       });
     }, 2000);
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const particles = Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 4 + 2,
+      speed: Math.random() * 0.5 + 0.1,
+      opacity: Math.random() * 0.5 + 0.3,
+    }));
+    setParticlePositions(particles);
+
+    const interval = setInterval(() => {
+      setParticlePositions((prev) =>
+        prev.map((particle) => ({
+          ...particle,
+          y: (particle.y + particle.speed) % 100,
+          opacity: 0.3 + Math.sin(Date.now() * 0.001 + particle.id) * 0.3,
+        }))
+      );
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWaveAnimation((prev) => (prev + 1) % 360);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHologramEffect((prev) => (prev + 2) % 100);
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const matrix = Array.from({ length: 30 }, (_, i) => ({
+      id: i,
+      x: (i * 3.33) % 100,
+      characters: Array.from({ length: 10 }, () =>
+        String.fromCharCode(0x30a0 + Math.random() * 96)
+      ),
+      speed: Math.random() * 2 + 1,
+    }));
+    setMatrixRain(matrix);
+
+    const interval = setInterval(() => {
+      setMatrixRain((prev) =>
+        prev.map((column) => ({
+          ...column,
+          characters: column.characters.map(() =>
+            Math.random() > 0.95
+              ? String.fromCharCode(0x30a0 + Math.random() * 96)
+              : column.characters[0]
+          ),
+        }))
+      );
+    }, 150);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const currentPlatform = platforms[currentPlatformIndex];
   const currentVideo = trendingVideos[currentTrendingVideo];
-  const currentHashtagData = trendingHashtags[currentHashtag];
   const currentInfluencerData = topInfluencers[currentInfluencer];
 
   return (
@@ -175,21 +350,27 @@ export default function HeroBanner({ onCTAClick }) {
       <section style={styles.heroSection}>
         {/* Fond avec dégradé moderne */}
         <div style={styles.heroBackground}></div>
-        
+
         {/* Éléments flottants décoratifs */}
         <div style={styles.floatingElements}>
-          <div style={{...styles.floatingElement, ...styles.floatingElement1}}></div>
-          <div style={{...styles.floatingElement, ...styles.floatingElement2}}></div>
-          <div style={{...styles.floatingElement, ...styles.floatingElement3}}></div>
+          <div
+            style={{ ...styles.floatingElement, ...styles.floatingElement1 }}
+          ></div>
+          <div
+            style={{ ...styles.floatingElement, ...styles.floatingElement2 }}
+          ></div>
+          <div
+            style={{ ...styles.floatingElement, ...styles.floatingElement3 }}
+          ></div>
         </div>
-        
+
         <div style={styles.container}>
           <div style={styles.heroContent}>
             {/* Badge moderne avec glassmorphism */}
             <div style={styles.badgeContainer}>
               <div style={styles.badge}>
                 <Flame size={16} style={styles.badgeIcon} />
-                <span>🔥 922K analyses aujourdhui</span>
+                <span>922K analyses aujourdhui</span>
               </div>
             </div>
 
@@ -201,16 +382,19 @@ export default function HeroBanner({ onCTAClick }) {
 
             {/* Description moderne */}
             <p style={styles.description}>
-              Intelligence artificielle nouvelle génération pour décrypter et prédire 
-              les tendances virales sur tous les réseaux sociaux ⚡
+              Intelligence artificielle nouvelle génération pour décrypter et
+              prédire les tendances virales sur tous les réseaux sociaux ⚡
             </p>
 
             {/* Indicateur de plateforme moderne */}
             <div style={styles.platformIndicator}>
               <div style={styles.platformIconContainer}>
-                <currentPlatform.icon 
-                  size={24} 
-                  style={{ ...styles.platformIconSvg, color: currentPlatform.color }} 
+                <currentPlatform.icon
+                  size={24}
+                  style={{
+                    ...styles.platformIconSvg,
+                    color: currentPlatform.color,
+                  }}
                 />
               </div>
               <div style={styles.platformDetails}>
@@ -229,12 +413,15 @@ export default function HeroBanner({ onCTAClick }) {
                 onClick={onCTAClick}
                 style={styles.primaryAction}
                 onMouseOver={(e) => {
-                  e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
-                  e.currentTarget.style.boxShadow = "0 20px 40px rgba(139, 92, 246, 0.4)";
+                  e.currentTarget.style.transform =
+                    "translateY(-3px) scale(1.02)";
+                  e.currentTarget.style.boxShadow =
+                    "0 20px 40px rgba(139, 92, 246, 0.4)";
                 }}
                 onMouseOut={(e) => {
                   e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.boxShadow = "0 10px 30px rgba(139, 92, 246, 0.3)";
+                  e.currentTarget.style.boxShadow =
+                    "0 10px 30px rgba(139, 92, 246, 0.3)";
                 }}
               >
                 <Sparkles size={18} />
@@ -276,447 +463,958 @@ export default function HeroBanner({ onCTAClick }) {
         </div>
       </section>
 
-      {/* ===== SECTION MÉTRIQUES LIVE REDESIGNÉE ===== */}
-      <section style={styles.liveSection}>
-        <div style={styles.liveSectionOverlay}></div>
+      {/* ===== SECTION PLATEFORMES RÉVOLUTIONNAIRE ===== */}
+      <section style={styles.revolutionaryPlatformsSection}>
+        {/* Arrière-plan avec particules animées */}
+        <div style={styles.revolutionaryBackground}>
+          {particlePositions.map((particle) => (
+            <div
+              key={particle.id}
+              style={{
+                ...styles.particle,
+                left: `${particle.x}%`,
+                top: `${particle.y}%`,
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
+                opacity: particle.opacity,
+              }}
+            />
+          ))}
+        </div>
+
         <div style={styles.container}>
-          <div style={styles.sectionHeader}>
-            <div style={styles.sectionIconContainer}>
-              <Activity size={28} style={styles.sectionIcon} />
+          <div style={styles.revolutionarySectionHeader}>
+            <div style={styles.revolutionaryHeaderBackground}></div>
+            <div style={styles.revolutionaryIconContainer}>
+              <Monitor size={32} style={styles.revolutionaryIcon} />
+              <div style={styles.iconPulse}></div>
             </div>
-            <h2 style={styles.sectionTitle}>Métriques Live</h2>
-            <p style={styles.sectionSubtitle}>✨ Données en temps réel • Mises à jour chaque seconde</p>
+            <h2 style={styles.revolutionaryTitle}>
+              Social
+              <span style={styles.titleGradient}>Performer</span>
+            </h2>
+            <p style={styles.revolutionarySubtitle}>
+              Scanner multi-plateforme • Analyse des performances • Récupération
+              des tendances
+            </p>
           </div>
-          
-          <div style={styles.metricsGrid}>
-            {liveMetricsData.map((metric, index) => (
-              <div 
-                key={index} 
-                style={styles.metricCard}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.transform = "translateY(-10px) scale(1.03)";
-                  e.currentTarget.style.boxShadow = "0 25px 50px rgba(0, 0, 0, 0.25)";
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.boxShadow = "0 15px 35px rgba(0, 0, 0, 0.15)";
-                }}
-              >
-                <div style={styles.metricCardGlow}></div>
-                <div style={styles.metricHeader}>
-                  <div style={styles.metricIconContainer}>
-                    <metric.icon size={24} style={styles.metricIcon} />
+
+          {/* Grid en hexagone révolutionnaire */}
+          <div style={styles.hexagonalGrid}>
+            {platforms.map((platform, index) => {
+              const isActive = index === currentPlatformIndex;
+              return (
+                <div
+                  key={platform.name}
+                  style={{
+                    ...styles.hexagonCard,
+                    transform: isActive
+                      ? "scale(1.1) rotate(5deg)"
+                      : "scale(1) rotate(0deg)",
+                    zIndex: isActive ? 10 : 1,
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform =
+                      "scale(1.2) rotate(10deg) translateY(-20px)";
+                    e.currentTarget.style.boxShadow = `0 40px 80px ${platform.color}40`;
+                  }}
+                  onMouseOut={(e) => {
+                    const active = index === currentPlatformIndex;
+                    e.currentTarget.style.transform = active
+                      ? "scale(1.1) rotate(5deg)"
+                      : "scale(1) rotate(0deg)";
+                    e.currentTarget.style.boxShadow =
+                      "0 20px 40px rgba(0, 0, 0, 0.3)";
+                  }}
+                >
+                  {/* Effet hologramme */}
+                  <div
+                    style={{
+                      ...styles.hologramEffect,
+                      background: `linear-gradient(45deg, ${platform.color}20, transparent, ${platform.color}10)`,
+                      transform: `translateX(${
+                        Math.sin(hologramEffect * 0.1) * 10
+                      }px)`,
+                    }}
+                  ></div>
+
+                  {/* Contenu de la carte */}
+                  <div style={styles.hexagonContent}>
+                    <div
+                      style={{
+                        ...styles.platformMegaIcon,
+                        background: `linear-gradient(135deg, ${platform.color}, ${platform.color}cc)`,
+                      }}
+                    >
+                      <platform.icon size={36} style={{ color: "white" }} />
+                      <div style={styles.iconGlow}></div>
+                    </div>
+
+                    <h3 style={styles.platformMegaTitle}>{platform.name}</h3>
+
+                    <div style={styles.platformMetrics}>
+                      <div style={styles.metricItem}>
+                        <span style={styles.metricLabel}>Utilisateurs</span>
+                        <span style={styles.metricValue}>{platform.users}</span>
+                      </div>
+                      <div style={styles.metricItem}>
+                        <span style={styles.metricLabel}>Engagement</span>
+                        <span style={styles.metricValue}>
+                          {platform.engagement}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div style={styles.platformProgress}>
+                      <div style={styles.progressBar}>
+                        <div
+                          style={{
+                            ...styles.progressFill,
+                            width: `${parseFloat(platform.engagement) * 20}%`,
+                            background: `linear-gradient(90deg, ${platform.color}, ${platform.color}80)`,
+                          }}
+                        ></div>
+                      </div>
+                      <span style={styles.growthBadge}>{platform.growth}</span>
+                    </div>
+
+                    {/* Mini graphique futuriste */}
+                    <div style={styles.futuristicChart}>
+                      {Array.from({ length: 8 }, (_, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            ...styles.chartColumn,
+                            height: `${
+                              30 + Math.sin(waveAnimation * 0.05 + i) * 20
+                            }%`,
+                            background: `linear-gradient(180deg, ${platform.color}, ${platform.color}60)`,
+                            animationDelay: `${i * 0.1}s`,
+                          }}
+                        />
+                      ))}
+                    </div>
                   </div>
-                  <span style={styles.metricLabel}>{metric.label}</span>
-                  <div style={styles.metricPulse}></div>
+
+                  {/* Bordure néon */}
+                  <div
+                    style={{
+                      ...styles.neonBorder,
+                      boxShadow: `inset 0 0 20px ${platform.color}40, 0 0 20px ${platform.color}20`,
+                    }}
+                  ></div>
                 </div>
-                <div style={styles.metricValue}>
-                  {liveMetrics[Object.keys(liveMetrics)[index]] || metric.value}
+              );
+            })}
+          </div>
+
+          {/* Panneau de contrôle central */}
+          <div style={styles.centralControlPanel}>
+            <div style={styles.controlPanelGlow}></div>
+            <div style={styles.controlPanelContent}>
+              <h4 style={styles.controlPanelTitle}>Centre de Contrôle IA</h4>
+              <div style={styles.controlMetrics}>
+                <div style={styles.controlMetric}>
+                  <Activity size={24} />
+                  <span>Analyse en temps réel</span>
+                  <div style={styles.statusDot}></div>
                 </div>
-                <div style={styles.metricTrend}>📈 Trending</div>
+                <div style={styles.controlMetric}>
+                  <Brain size={24} />
+                  <span>IA Prédictive Active</span>
+                  <div style={styles.statusDot}></div>
+                </div>
+                <div style={styles.controlMetric}>
+                  <Globe size={24} />
+                  <span>Couverture Globale</span>
+                  <div style={styles.statusDot}></div>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ===== SECTION CONTENU VIRAL REDESIGNÉE ===== */}
-      <section style={styles.contentSection}>
-        <div style={styles.contentSectionOverlay}></div>
-        <div style={styles.container}>
-          <div style={styles.sectionHeader}>
-            <div style={styles.sectionIconContainer}>
-              <Play size={28} style={styles.sectionIcon} />
-            </div>
-            <h2 style={styles.sectionTitle}>Contenu Viral</h2>
-            <p style={styles.sectionSubtitle}>🚀 Ce qui explose en ce moment • Tendances chaudes</p>
-          </div>
-
-          {/* Vidéo principale redesignée */}
-          <div style={styles.featuredContent}>
-            <div style={styles.featuredContentGlow}></div>
-            <div style={styles.featuredMedia}>
-              <currentVideo.icon size={40} style={styles.featuredIcon} />
-              <div style={styles.featuredPulse}></div>
-            </div>
-            <div style={styles.featuredInfo}>
-              <h3 style={styles.featuredTitle}>{currentVideo.title}</h3>
-              <div style={styles.featuredMeta}>
-                <span style={styles.featuredCreator}>👤 {currentVideo.creator}</span>
-                <div style={styles.featuredBadge}>{currentVideo.platform}</div>
-              </div>
-              <div style={styles.featuredStats}>
-                <div style={styles.featuredStat}>
-                  <Eye size={18} />
-                  <span>{currentVideo.views} vues</span>
-                </div>
-                <div style={styles.featuredGrowth}>
-                  <TrendingUp size={18} />
-                  <span>{currentVideo.growth}</span>
-                </div>
-              </div>
-            </div>
-            <div style={styles.featuredBg}></div>
-          </div>
-
-          {/* Grid de contenu redesigné */}
-          <div style={styles.contentGrid}>
-            {trendingVideos.map((video, index) => (
-              <div 
-                key={index} 
-                style={styles.contentCard}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.transform = "translateY(-12px) scale(1.05)";
-                  e.currentTarget.style.boxShadow = "0 30px 60px rgba(0, 0, 0, 0.25)";
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.boxShadow = "0 15px 35px rgba(0, 0, 0, 0.15)";
-                }}
-              >
-                <div style={styles.contentCardGlow}></div>
-                <div style={styles.contentCardMedia}>
-                  <video.icon size={28} style={styles.contentCardIcon} />
-                </div>
-                <h4 style={styles.contentCardTitle}>{video.title}</h4>
-                <div style={styles.contentCardCreator}>by {video.creator}</div>
-                <div style={styles.contentCardStats}>
-                  <span style={styles.contentCardViews}>👁️ {video.views}</span>
-                  <span style={styles.contentCardGrowth}>📈 {video.growth}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SECTION HASHTAGS REDESIGNÉE ===== */}
-      <section style={styles.hashtagSection}>
-        <div style={styles.hashtagSectionOverlay}></div>
-        <div style={styles.container}>
-          <div style={styles.sectionHeader}>
-            <div style={styles.sectionIconContainer}>
-              <Hash size={28} style={styles.sectionIcon} />
-            </div>
-            <h2 style={styles.sectionTitle}>Hashtags Trending</h2>
-            <p style={styles.sectionSubtitle}>🔥 Mots-clés qui buzzent • #Tendances du moment</p>
-          </div>
-
-          {/* Hashtag principal redesigné */}
-          <div style={styles.featuredHashtag}>
-            <div style={styles.featuredHashtagGlow}></div>
-            <div style={styles.hashtagIcon}>
-              <currentHashtagData.icon size={40} />
-              <div style={styles.hashtagPulse}></div>
-            </div>
-            <div style={styles.hashtagInfo}>
-              <h3 style={styles.hashtagTitle}>{currentHashtagData.tag}</h3>
-              <div style={styles.hashtagMeta}>
-                <span style={styles.hashtagCount}>📊 {currentHashtagData.count} posts</span>
-                <div style={styles.hashtagBadge}>{currentHashtagData.platform}</div>
-              </div>
-              <div style={styles.hashtagGrowth}>
-                <TrendingUp size={18} />
-                <span>{currentHashtagData.growth} croissance</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Grid hashtags redesigné */}
-          <div style={styles.hashtagGrid}>
-            {trendingHashtags.map((hashtag, index) => (
-              <div 
-                key={index} 
-                style={styles.hashtagCard}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.transform = "translateY(-8px) scale(1.03)";
-                  e.currentTarget.style.boxShadow = "0 20px 40px rgba(0, 0, 0, 0.2)";
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.boxShadow = "0 10px 25px rgba(0, 0, 0, 0.1)";
-                }}
-              >
-                <div style={styles.hashtagCardGlow}></div>
-                <div style={styles.hashtagCardHeader}>
-                  <hashtag.icon size={24} style={styles.hashtagCardIcon} />
-                  <span style={styles.hashtagCardTag}>{hashtag.tag}</span>
-                </div>
-                <div style={styles.hashtagCardStats}>
-                  <span style={styles.hashtagCardCount}>📈 {hashtag.count}</span>
-                  <span style={styles.hashtagCardGrowth}>⚡ {hashtag.growth}</span>
-                </div>
-                <div style={styles.hashtagCardPlatform}>{hashtag.platform}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SECTION INFLUENCEURS REDESIGNÉE ===== */}
-      <section style={styles.influencerSection}>
-        <div style={styles.influencerSectionOverlay}></div>
-        <div style={styles.container}>
-          <div style={styles.sectionHeader}>
-            <div style={styles.sectionIconContainer}>
-              <Star size={28} style={styles.sectionIcon} />
-            </div>
-            <h2 style={styles.sectionTitle}>Top Influenceurs</h2>
-            <p style={styles.sectionSubtitle}>⭐ Leaders dopinion du moment • Créateurs tendance</p>
-          </div>
-
-          {/* Influenceur principal redesigné */}
-          <div style={styles.featuredInfluencer}>
-            <div style={styles.featuredInfluencerGlow}></div>
-            <div style={styles.influencerAvatar}>
-              <currentInfluencerData.icon size={40} />
-              <div style={styles.influencerPulse}></div>
-            </div>
-            <div style={styles.influencerInfo}>
-              <h3 style={styles.influencerName}>🌟 {currentInfluencerData.name}</h3>
-              <div style={styles.influencerMeta}>
-                <span style={styles.influencerFollowers}>👥 {currentInfluencerData.followers} followers</span>
-                <div style={styles.influencerBadge}>{currentInfluencerData.platform}</div>
-              </div>
-              <div style={styles.influencerEngagement}>
-                <Heart size={18} />
-                <span>{currentInfluencerData.engagement} engagement</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Grid influenceurs redesigné */}
-          <div style={styles.influencersGrid}>
-            {topInfluencers.map((influencer, index) => (
-              <div 
-                key={index} 
-                style={styles.influencerCard}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.transform = "translateY(-12px) scale(1.05)";
-                  e.currentTarget.style.boxShadow = "0 25px 50px rgba(0, 0, 0, 0.25)";
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.boxShadow = "0 12px 30px rgba(0, 0, 0, 0.15)";
-                }}
-              >
-                <div style={styles.influencerCardGlow}></div>
-                <div style={styles.influencerCardAvatar}>
-                  <influencer.icon size={28} />
-                </div>
-                <h4 style={styles.influencerCardName}>⭐ {influencer.name}</h4>
-                <div style={styles.influencerCardPlatform}>{influencer.platform}</div>
-                <div style={styles.influencerCardStats}>
-                  <span style={styles.influencerCardFollowers}>👥 {influencer.followers}</span>
-                  <span style={styles.influencerCardEngagement}>💕 {influencer.engagement}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SECTION ANALYTICS REDESIGNÉE ===== */}
-      <section style={styles.analyticsSection}>
-  <div style={styles.analyticsSectionOverlay}></div>
-  <div style={styles.container}>
-    <div style={styles.sectionHeader}>
-      <div style={styles.sectionIconContainer}>
-        <Brain size={28} style={styles.sectionIcon} />
-      </div>
-      <h2 style={styles.sectionTitle}>Intelligence Artificielle</h2>
-      <p style={styles.sectionSubtitle}>🧠 Insights et prédictions avancées • IA nouvelle génération</p>
-    </div>
-
-    <div style={styles.analyticsGrid}>
-      {/* Prédiction IA redesignée */}
-      <div style={styles.analyticsCard}>
-        <div style={styles.analyticsCardGlow}></div>
-        <div style={styles.analyticsCardHeader}>
-          <Target size={24} />
-          <span>🎯 Prédiction IA</span>
-        </div>
-        <div style={styles.predictionContent}>
-          <p style={styles.predictionText}>
-            Le contenu lifestyle va exploser dans les 48h prochaines
-          </p>
-          <div style={styles.confidenceContainer}>
-            <div style={styles.confidenceBar}>
-              <div style={styles.confidenceFill}></div>
-            </div>
-            <span style={styles.confidenceText}>✅ 94% de confiance</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Sentiment Analysis redesignée */}
-      <div style={styles.analyticsCard}>
-        <div style={styles.analyticsCardGlow}></div>
-        <div style={styles.analyticsCardHeader}>
-          <Heart size={24} />
-          <span>💝 Sentiment Global</span>
-        </div>
-        <div style={styles.sentimentContent}>
-          <div style={styles.sentimentScore}>87%</div>
-          <div style={styles.sentimentLabel}>😊 Très Positif</div>
-          <div style={styles.sentimentBar}>
-            <div style={styles.sentimentFill}></div>
-          </div>
-        </div>
-      </div>
-
-      {/* Top Categories redesignée */}
-      <div style={styles.analyticsCard}>
-        <div style={styles.analyticsCardGlow}></div>
-        <div style={styles.analyticsCardHeader}>
-          <BarChart3 size={24} />
-          <span>📊 Top Catégories</span>
-        </div>
-        <div style={styles.categoriesContent}>
-          {[
-            { name: "🎮 Gaming", percentage: "23%" },
-            { name: "🍕 Food", percentage: "18%" },
-            { name: "💪 Fitness", percentage: "15%" }
-          ].map((category, index) => (
-            <div key={index} style={styles.categoryItem}>
-              <span style={styles.categoryName}>{category.name}</span>
-              <span style={styles.categoryPercentage}>{category.percentage}</span>
+      {/* ===== SECTION MÉTRIQUES LIVE RÉVOLUTIONNAIRE ===== */}
+      <section style={styles.revolutionaryLiveSection}>
+        {/* Effet Matrix Rain */}
+        <div style={styles.matrixBackground}>
+          {matrixRain.map((column) => (
+            <div
+              key={column.id}
+              style={{
+                ...styles.matrixColumn,
+                left: `${column.x}%`,
+                animationDuration: `${column.speed}s`,
+              }}
+            >
+              {column.characters.map((char, i) => (
+                <span key={i} style={styles.matrixChar}>
+                  {char}
+                </span>
+              ))}
             </div>
           ))}
         </div>
-      </div>
 
-      {/* NOUVELLE 4ème Catégorie - Optimisation Horaire */}
-      <div style={styles.analyticsCard}>
-        <div style={styles.analyticsCardGlow}></div>
-        <div style={styles.analyticsCardHeader}>
-          <Clock size={24} />
-          <span>⏰ Optimisation Horaire</span>
-        </div>
-        <div style={styles.timingContent}>
-          <div style={styles.bestTimeContainer}>
-            <div style={styles.bestTime}>18:30</div>
-            <div style={styles.bestTimeLabel}>🔥 Meilleur créneau</div>
-          </div>
-          <div style={styles.timingStats}>
-            {[
-              { time: "9h-12h", engagement: "65%" },
-              { time: "18h-21h", engagement: "89%" },
-              { time: "21h-23h", engagement: "71%" }
-            ].map((slot, index) => (
-              <div key={index} style={styles.timeSlot}>
-                <span style={styles.timeRange}>{slot.time}</span>
-                <span style={styles.engagementRate}>{slot.engagement}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-      {/* ===== SECTION PLATEFORMES REDESIGNÉE ===== */}
-      <section style={styles.platformsSection}>
-        <div style={styles.platformsSectionOverlay}></div>
         <div style={styles.container}>
-          <div style={styles.sectionHeader}>
-            <div style={styles.sectionIconContainer}>
-              <Monitor size={28} style={styles.sectionIcon} />
+          <div style={styles.revolutionarySectionHeader}>
+            <div style={styles.revolutionaryHeaderBackground}></div>
+            <div style={styles.revolutionaryIconContainer}>
+              <Activity size={32} style={styles.revolutionaryIcon} />
+              <div style={styles.iconPulse}></div>
             </div>
-            <h2 style={styles.sectionTitle}>Analyse par Plateforme</h2>
-            <p style={styles.sectionSubtitle}>📊 Performance détaillée en temps réel • Données cross-platform</p>
+            <h2 style={styles.revolutionaryTitle}>
+              Live
+              <span style={styles.titleGradient}>Quantum</span>
+            </h2>
+            <p style={styles.revolutionarySubtitle}>
+              Données en temps réel • Prédictions IA
+            </p>
           </div>
 
-          <div style={styles.platformsGrid}>
-            {platforms.map((platform) => (
-              <div
-                key={platform.name}
-                style={styles.platformCard}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.transform = "translateY(-12px) scale(1.03)";
-                  e.currentTarget.style.boxShadow = "0 30px 60px rgba(0, 0, 0, 0.25)";
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.boxShadow = "0 15px 35px rgba(0, 0, 0, 0.15)";
-                }}
-              >
-                <div style={styles.platformCardGlow}></div>
-                <div style={styles.platformCardHeader}>
-                  <div style={styles.platformCardIcon}>
-                    <platform.icon size={28} style={{ color: platform.color }} />
+          {/* Grid de métriques en vortex */}
+          <div style={styles.vortexGrid}>
+            {liveMetricsData.map((metric, index) => {
+              const angle = index * 90 + waveAnimation;
+              return (
+                <div
+                  key={index}
+                  style={{
+                    ...styles.vortexCard,
+                    transform: `rotate(${angle * 0.5}deg) translateY(${
+                      Math.sin(angle * 0.02) * 10
+                    }px)`,
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform =
+                      "scale(1.2) rotate(0deg) translateZ(50px)";
+                    e.currentTarget.style.boxShadow =
+                      "0 50px 100px rgba(0, 255, 255, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = `rotate(${
+                      angle * 0.5
+                    }deg) translateY(${Math.sin(angle * 0.02) * 10}px)`;
+                    e.currentTarget.style.boxShadow =
+                      "0 25px 50px rgba(0, 0, 0, 0.3)";
+                  }}
+                >
+                  {/* Fond holographique */}
+                  <div style={styles.holographicBackground}></div>
+
+                  {/* Cercles concentriques */}
+                  <div style={styles.concentricCircles}>
+                    <div style={styles.circle1}></div>
+                    <div style={styles.circle2}></div>
+                    <div style={styles.circle3}></div>
                   </div>
-                  <div style={styles.platformCardInfo}>
-                    <h4 style={styles.platformCardName}>📱 {platform.name}</h4>
-                    <div style={styles.platformCardGrowth}>
-                      <TrendingUp size={16} />
-                      <span>{platform.growth}</span>
+
+                  <div style={styles.vortexCardContent}>
+                    <div style={styles.metricIconQuantum}>
+                      <metric.icon size={32} style={styles.quantumIcon} />
+                      <div style={styles.quantumPulse}></div>
+                    </div>
+
+                    <div style={styles.metricDataQuantum}>
+                      <span style={styles.quantumLabel}>{metric.label}</span>
+                      <span style={styles.quantumValue}>
+                        {liveMetrics[Object.keys(liveMetrics)[index]] ||
+                          metric.value}
+                      </span>
+                      <div style={styles.quantumTrend}>
+                        <TrendingUp size={16} />
+                        <span>{metric.trend}</span>
+                      </div>
+                    </div>
+
+                    {/* Visualisation de données */}
+                    <div style={styles.dataVisualization}>
+                      {Array.from({ length: 12 }, (_, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            ...styles.dataPoint,
+                            height: `${
+                              20 + Math.sin(waveAnimation * 0.1 + i) * 30
+                            }%`,
+                            background: `hsl(${180 + i * 15}, 70%, 60%)`,
+                            animationDelay: `${i * 0.1}s`,
+                          }}
+                        />
+                      ))}
                     </div>
                   </div>
-                  <div style={styles.platformCardViews}>
-                    {viewsCount !== null && (
-                      <>
-                        <div style={styles.viewsNumber}>{viewsCount}M</div>
-                        <div style={styles.viewsLabel}>👁️ vues</div>
-                      </>
-                    )}
+
+                  {/* Effet de scan */}
+                  <div
+                    style={{
+                      ...styles.scanLine,
+                      transform: `translateY(${
+                        Math.sin(waveAnimation * 0.1) * 100
+                      }%)`,
+                    }}
+                  ></div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Terminal de commandement */}
+          <div style={styles.commandTerminal}>
+            <div style={styles.terminalHeader}>
+              <div style={styles.terminalButtons}>
+                <div style={styles.terminalButton}></div>
+                <div style={styles.terminalButton}></div>
+                <div style={styles.terminalButton}></div>
+              </div>
+              <span style={styles.terminalTitle}>
+                🖥️ Resultat des analyses IA
+              </span>
+            </div>
+            <div style={styles.terminalContent}>
+              <div style={styles.terminalLine}>
+                <span style={styles.terminalPrompt}>trendScope@v1:~$</span>
+                <span style={styles.terminalCommand}>
+                  monitoring --liveQuantum --ai
+                </span>
+              </div>
+              <div style={styles.terminalOutput}>
+                <div>⚡ Taux de conversation moyen des résaux: 18%</div>
+                <div>⚡ Nombre de post depuis 24h: 1487 posts</div>
+                <div>⚡ Performance prévision IA: 94.8%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SECTION CONTENU VIRAL RÉVOLUTIONNAIRE ===== */}
+      <section style={styles.revolutionaryContentSection}>
+        <div style={styles.container}>
+          <div style={styles.revolutionarySectionHeader}>
+            <div style={styles.revolutionaryHeaderBackground}></div>
+            <div style={styles.revolutionaryIconContainer}>
+              <Play size={32} style={styles.revolutionaryIcon} />
+              <div style={styles.iconPulse}></div>
+            </div>
+            <h2 style={styles.revolutionaryTitle}>
+              Contenu
+              <span style={styles.titleGradient}>Viral</span>
+            </h2>
+            <p style={styles.revolutionarySubtitle}>
+              Détection instantanée • Contenu viral • Analyse comportementale
+            </p>
+          </div>
+
+          {/* Contenu principal en 3D */}
+          <div style={styles.content3DContainer}>
+            <div style={styles.content3DCard}>
+              {/* Effet de profondeur */}
+              <div style={styles.depthLayers}>
+                <div style={styles.layer1}></div>
+                <div style={styles.layer2}></div>
+                <div style={styles.layer3}></div>
+              </div>
+
+              <div style={styles.content3DHeader}>
+                <div style={styles.viralBadge}>
+                  <Flame size={20} />
+                  <span>VIRAL ALERT</span>
+                  <div style={styles.badgePulse}></div>
+                </div>
+                <div style={styles.viralScore}>
+                  <span style={styles.scoreLabel}>Score Viral</span>
+                  <span style={styles.scoreValue}>
+                    {currentVideo.score}/100
+                  </span>
+                  <div style={styles.scoreBar}>
+                    <div
+                      style={{
+                        ...styles.scoreProgress,
+                        width: `${currentVideo.score}%`,
+                      }}
+                    ></div>
                   </div>
                 </div>
+              </div>
 
-                {/* Mini graphique redesigné */}
-                <div style={styles.miniChart}>
-                  {chartHeights.map((height, i) => (
+              <div style={styles.content3DBody}>
+                <div style={styles.videoThumbnail}>
+                  <currentVideo.icon size={48} style={styles.thumbnailIcon} />
+                  <div style={styles.playOverlay}>
+                    <Play size={24} />
+                  </div>
+                  <div style={styles.thumbnailGlow}></div>
+                </div>
+
+                <div style={styles.videoInfo}>
+                  <h3 style={styles.videoTitle}>{currentVideo.title}</h3>
+                  <div style={styles.videoMeta}>
+                    <span style={styles.videoCreator}>
+                      {currentVideo.creator}
+                    </span>
+                    <div style={styles.videoPlatform}>
+                      {currentVideo.platform}
+                    </div>
+                    <div style={styles.videoCategory}>
+                      {currentVideo.category}
+                    </div>
+                  </div>
+
+                  <div style={styles.videoStats}>
+                    <div style={styles.statItem}>
+                      <Eye size={18} />
+                      <span>{currentVideo.views}</span>
+                    </div>
+                    <div style={styles.statItem}>
+                      <TrendingUp size={18} />
+                      <span>{currentVideo.growth}</span>
+                    </div>
+                    <div style={styles.statItem}>
+                      <Share2 size={18} />
+                      <span>450K</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Graphique de croissance en temps réel */}
+              <div style={styles.growthChart}>
+                <h4 style={styles.chartTitle}>📈 Croissance Virale</h4>
+                <div style={styles.chartContainer}>
+                  {Array.from({ length: 20 }, (_, i) => (
                     <div
                       key={i}
                       style={{
-                        ...styles.chartBar,
-                        background: `linear-gradient(180deg, ${platform.color}dd, ${platform.color}88, ${platform.color}44)`,
-                        height: `${height}%`,
-                        boxShadow: `0 4px 8px ${platform.color}44`,
+                        ...styles.chartBar3D,
+                        height: `${
+                          20 +
+                          Math.sin(waveAnimation * 0.1 + i * 0.3) * 40 +
+                          i * 2
+                        }%`,
+                        background: `linear-gradient(180deg, 
+                          hsl(${320 + i * 2}, 80%, 60%), 
+                          hsl(${320 + i * 2}, 80%, 40%))`,
+                        boxShadow: `0 0 10px hsl(${320 + i * 2}, 80%, 60%)`,
                       }}
-                    ></div>
+                    />
                   ))}
                 </div>
-                <div style={styles.platformCardBadge}>🔥 Trending</div>
               </div>
+            </div>
+
+            {/* Cartes satellites flottantes */}
+            <div style={styles.satelliteCards}>
+              {trendingVideos.slice(1, 4).map((video, index) => (
+                <div
+                  key={index}
+                  style={{
+                    ...styles.satelliteCard,
+                    transform: `translateY(${
+                      Math.sin(waveAnimation * 0.05 + index) * 20
+                    }px)`,
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform =
+                      "scale(1.1) translateY(-10px)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = `translateY(${
+                      Math.sin(waveAnimation * 0.05 + index) * 20
+                    }px)`;
+                  }}
+                >
+                  <div style={styles.satelliteIcon}>
+                    <video.icon size={24} />
+                  </div>
+                  <div style={styles.satelliteInfo}>
+                    <h5 style={styles.satelliteTitle}>{video.title}</h5>
+                    <div style={styles.satelliteStats}>
+                      <span>{video.views}</span>
+                      <span>{video.growth}</span>
+                    </div>
+                  </div>
+                  <div style={styles.satelliteProgress}>
+                    <div
+                      style={{
+                        ...styles.satelliteBar,
+                        width: `${video.score}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Panneau de prédiction IA */}
+          <div style={styles.predictionPanel}>
+            <div style={styles.predictionHeader}>
+              <Brain size={24} />
+              <span> Prédictions IA</span>
+            </div>
+            <div style={styles.predictionContent}>
+              <div style={styles.predictionItem}>
+                <span style={styles.predictionLabel}>
+                  Prochaine tendance virale
+                </span>
+                <span style={styles.predictionValue}>
+                  Dance Challenge #TechVibes
+                </span>
+                <div style={styles.predictionConfidence}>Confiance: 94%</div>
+              </div>
+              <div style={styles.predictionItem}>
+                <span style={styles.predictionLabel}>
+                  Pic dengagement estimé
+                </span>
+                <span style={styles.predictionValue}>18:30 - 21:00 CET</span>
+                <div style={styles.predictionConfidence}>Confiance: 89%</div>
+              </div>
+              <div style={styles.predictionItem}>
+                <span style={styles.predictionLabel}>Plateforme optimale</span>
+                <span style={styles.predictionValue}>TikTok + Instagram</span>
+                <div style={styles.predictionConfidence}>Confiance: 97%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SECTION HASHTAGS RÉVOLUTIONNAIRE ===== */}
+      <section style={styles.revolutionaryHashtagSection}>
+        <div style={styles.container}>
+          <div style={styles.revolutionarySectionHeader}>
+            <div style={styles.revolutionaryHeaderBackground}></div>
+            <div style={styles.revolutionaryIconContainer}>
+              <Hash size={32} style={styles.revolutionaryIcon} />
+              <div style={styles.iconPulse}></div>
+            </div>
+            <h2 style={styles.revolutionaryTitle}>
+              Hashtags
+              <span style={styles.titleGradient}>Trending</span>
+            </h2>
+            <p style={styles.revolutionarySubtitle}>
+              Analyse sémantique • Détection émergente • Prédiction des futurs
+              hashtags
+            </p>
+          </div>
+
+          {/* Cloud de hashtags en 3D */}
+          <div style={styles.hashtagCloud3D}>
+            {trendingHashtags.map((hashtag, index) => {
+              const isActive = index === currentHashtag;
+              const radius = 200;
+              const angle =
+                index * (360 / trendingHashtags.length) + waveAnimation;
+              const x = Math.cos((angle * Math.PI) / 180) * radius;
+              const y = Math.sin((angle * Math.PI) / 180) * radius;
+
+              return (
+                <div
+                  key={index}
+                  style={{
+                    ...styles.hashtagSphere,
+                    transform: `translate3d(${x}px, ${y}px, ${
+                      isActive ? 50 : 0
+                    }px) scale(${isActive ? 1.3 : 1})`,
+                    zIndex: isActive ? 10 : 1,
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = `translate3d(${x}px, ${y}px, 100px) scale(1.5)`;
+                    e.currentTarget.style.filter =
+                      "drop-shadow(0 20px 40px rgba(0, 255, 255, 0.5))";
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = `translate3d(${x}px, ${y}px, ${
+                      isActive ? 50 : 0
+                    }px) scale(${isActive ? 1.3 : 1})`;
+                    e.currentTarget.style.filter = "none";
+                  }}
+                >
+                  {/* Sphère holographique */}
+                  <div style={styles.sphereHologram}></div>
+
+                  <div style={styles.sphereContent}>
+                    <div style={styles.hashtagIcon}>
+                      <hashtag.icon size={24} />
+                    </div>
+                    <h4 style={styles.hashtagText}>{hashtag.tag}</h4>
+                    <div style={styles.hashtagMetrics}>
+                      <span style={styles.hashtagCount}>{hashtag.count}</span>
+                      <span style={styles.hashtagGrowth}>{hashtag.growth}</span>
+                    </div>
+                    <div style={styles.hashtagReach}>
+                      Portée: {hashtag.reach}
+                    </div>
+
+                    {/* Indicateur de sentiment */}
+                    <div
+                      style={{
+                        ...styles.sentimentIndicator,
+                        background:
+                          hashtag.sentiment === "positive"
+                            ? "#10b981"
+                            : hashtag.sentiment === "negative"
+                            ? "#ef4444"
+                            : "#f59e0b",
+                      }}
+                    >
+                      {hashtag.sentiment === "positive"
+                        ? "😊"
+                        : hashtag.sentiment === "negative"
+                        ? "😞"
+                        : "😐"}
+                    </div>
+                  </div>
+
+                  {/* Orbites autour du hashtag */}
+                  <div style={styles.hashtagOrbits}>
+                    <div style={styles.orbit1}></div>
+                    <div style={styles.orbit2}></div>
+                    <div style={styles.orbit3}></div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SECTION INFLUENCEURS RÉVOLUTIONNAIRE ===== */}
+      <section style={styles.revolutionaryInfluencerSection}>
+        <div style={styles.container}>
+          <div style={styles.revolutionarySectionHeader}>
+            <div style={styles.revolutionaryHeaderBackground}></div>
+            <div style={styles.revolutionaryIconContainer}>
+              <Star size={32} style={styles.revolutionaryIcon} />
+              <div style={styles.iconPulse}></div>
+            </div>
+            <h2 style={styles.revolutionaryTitle}>
+              Influcence
+              <span style={styles.titleGradient}>Galaxy</span>
+            </h2>
+            <p style={styles.revolutionarySubtitle}>
+              Mapping des influenceur populaires • Analyse de réseau • Détection
+              des secteur émergents
+            </p>
+          </div>
+
+          {/* Galaxie d'influenceurs */}
+          <div style={styles.influencerGalaxy}>
+            {/* Influenceur central (étoile principale) */}
+            <div style={styles.centralStar}>
+              <div style={styles.starCore}>
+                <currentInfluencerData.icon size={48} style={styles.starIcon} />
+                <div style={styles.starPulse}></div>
+              </div>
+              <div style={styles.starInfo}>
+                <h3 style={styles.starName}>{currentInfluencerData.name}</h3>
+                <div style={styles.starTier}>
+                  {currentInfluencerData.tier} Influencer
+                </div>
+                <div style={styles.starStats}>
+                  <span>{currentInfluencerData.followers}</span>
+                  <span>{currentInfluencerData.engagement}</span>
+                </div>
+              </div>
+              <div style={styles.starAura}></div>
+            </div>
+
+            {/* Influenceurs satellites */}
+            {topInfluencers.map((influencer, index) => {
+              if (index === currentInfluencer) return null;
+
+              const orbitRadius = 150 + index * 30;
+              const angle = index * 60 + waveAnimation * 0.5;
+              const x = Math.cos((angle * Math.PI) / 180) * orbitRadius;
+              const y = Math.sin((angle * Math.PI) / 180) * orbitRadius;
+
+              return (
+                <div
+                  key={index}
+                  style={{
+                    ...styles.satelliteInfluencer,
+                    transform: `translate3d(${x}px, ${y}px, 0)`,
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = `translate3d(${x}px, ${y}px, 50px) scale(1.2)`;
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1)`;
+                  }}
+                >
+                  <div style={styles.satelliteCore}>
+                    <influencer.icon size={28} />
+                    <div style={styles.satellitePulse}></div>
+                  </div>
+                  <div style={styles.satelliteTrail}></div>
+
+                  {/* Tooltip au survol */}
+                  <div style={styles.influencerTooltip}>
+                    <h5>{influencer.name}</h5>
+                    <div>{influencer.category}</div>
+                    <div>{influencer.followers}</div>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Orbites visibles */}
+            {[150, 180, 210, 240].map((radius, index) => (
+              <div
+                key={index}
+                style={{
+                  ...styles.orbit,
+                  width: `${radius * 2}px`,
+                  height: `${radius * 2}px`,
+                  animationDuration: `${20 + index * 5}s`,
+                }}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ===== FOOTER MODERNE ===== */}
+      {/* ===== SECTION ANALYTICS RÉVOLUTIONNAIRE ===== */}
+      <section style={styles.revolutionaryAnalyticsSection}>
+        <div style={styles.container}>
+          <div style={styles.revolutionarySectionHeader}>
+            <div style={styles.revolutionaryHeaderBackground}></div>
+            <div style={styles.revolutionaryIconContainer}>
+              <Brain size={32} style={styles.revolutionaryIcon} />
+              <div style={styles.iconPulse}></div>
+            </div>
+            <h2 style={styles.revolutionaryTitle}>
+              Intel
+              <span style={styles.titleGradient}>Scanner</span>
+            </h2>
+            <p style={styles.revolutionarySubtitle}>
+              Prédictions IA • Résumé des données • Prévisions de tendances
+              virales
+            </p>
+          </div>
+
+          {/* Modules d'analyse en orbite */}
+          <div style={styles.analyticsModules}>
+            {[
+              { title: "Tendances", icon: Target, color: "#00ff88" },
+              { title: "Sentiment social", icon: Heart, color: "#ff0080" },
+              { title: "Top musiques", icon: Activity, color: "#0088ff" },
+              { title: "Ventes", icon: BarChart3, color: "#ff8800" },
+            ].map((module, index) => {
+              const orbitRadius = 250;
+              const angle = index * 90 + waveAnimation;
+              const x = Math.cos((angle * Math.PI) / 180) * orbitRadius;
+              const y = Math.sin((angle * Math.PI) / 180) * orbitRadius;
+
+              return (
+                <div
+                  key={index}
+                  style={{
+                    ...styles.analyticsModule,
+                    transform: `translate3d(${x}px, ${y}px, 0)`,
+                    borderColor: module.color,
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = `translate3d(${x}px, ${y}px, 50px) scale(1.2)`;
+                    e.currentTarget.style.boxShadow = `0 20px 40px ${module.color}40`;
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1)`;
+                    e.currentTarget.style.boxShadow =
+                      "0 10px 20px rgba(0, 0, 0, 0.3)";
+                  }}
+                >
+                  <div
+                    style={{
+                      ...styles.moduleIcon,
+                      background: `linear-gradient(135deg, ${module.color}, ${module.color}80)`,
+                    }}
+                  >
+                    <module.icon size={28} style={{ color: "white" }} />
+                  </div>
+                  <h4 style={styles.moduleTitle}>{module.title}</h4>
+
+                  {/* Visualisation de données pour chaque module */}
+                  <div style={styles.moduleVisualization}>
+                    {index === 0 && ( // Prédiction Trends
+                      <div style={styles.trendLines}>
+                        {Array.from({ length: 5 }, (_, i) => (
+                          <div
+                            key={i}
+                            style={{
+                              ...styles.trendLine,
+                              height: `${
+                                20 + Math.sin(waveAnimation * 0.1 + i) * 30
+                              }%`,
+                              background: module.color,
+                            }}
+                          />
+                        ))}
+                      </div>
+                    )}
+
+                    {index === 1 && (
+                      <div style={styles.sentimentWheel}>
+                        <div style={styles.sentimentPositive}>😊 67%</div>
+                        <div style={styles.sentimentNeutral}>😐 23%</div>
+                        <div style={styles.sentimentNegative}>😞 10%</div>
+                      </div>
+                    )}
+
+                    {index === 2 && (
+                      <div style={styles.behaviorHeatmap}>
+                        {opacities.map((opacity, i) => (
+                          <div
+                            key={i}
+                            style={{
+                              ...styles.heatmapCell,
+                              opacity,
+                              background: module.color,
+                            }}
+                          />
+                        ))}
+                      </div>
+                    )}
+
+                    {index === 3 && (
+                      <div style={styles.marketRadar}>
+                        <div style={styles.radarGrid}>
+                          {Array.from({ length: 3 }, (_, i) => (
+                            <div
+                              key={i}
+                              style={{
+                                ...styles.radarRing,
+                                width: `${30 + i * 25}%`,
+                                height: `${30 + i * 25}%`,
+                              }}
+                            />
+                          ))}
+                        </div>
+                        <div style={styles.radarSweep}></div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Dashboard quantique */}
+          <div style={styles.quantumDashboard}>
+            <h3 style={styles.quantumTitle}>Quantum Analytics Dashboard</h3>
+
+            <div style={styles.quantumGrid}>
+              <div style={styles.quantumCard}>
+                <h4> Prédictions Futures</h4>
+                <div style={styles.quantumVisualization}>
+                  <div style={styles.quantumSphere}>
+                    <div style={styles.sphereRings}>
+                      {Array.from({ length: 5 }, (_, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            ...styles.sphereRing,
+                            animationDelay: `${i * 0.2}s`,
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <div style={styles.quantumCore}>⚛️</div>
+                  </div>
+                </div>
+                <div style={styles.quantumData}>
+                  <div>Prochaine viralité: 94% probable</div>
+                  <div>Temps estimé: 2h 34min</div>
+                  <div>Plateforme cible: TikTok</div>
+                </div>
+              </div>
+
+              <div style={styles.quantumCard}>
+                <h4>🧬 ADN Viral</h4>
+                <div style={styles.dnaVisualization}>
+                  <div style={styles.dnaHelix}>
+                    {Array.from({ length: 10 }, (_, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          ...styles.dnaSegment,
+                          transform: `rotateZ(${i * 36}deg) rotateY(${
+                            waveAnimation * 2
+                          }deg)`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div style={styles.quantumData}>
+                  <div>Séquences analysées: 2.3M</div>
+                  <div>Patterns détectés: 47</div>
+                  <div>Mutations prédites: 12</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FOOTER MODERNE (INCHANGÉ) ===== */}
       <footer style={styles.footer}>
         <div style={styles.container}>
           <div style={styles.footerContent}>
             <div style={styles.footerBrand}>
               <h3 style={styles.footerTitle}>TrendScope</h3>
               <p style={styles.footerDescription}>
-                Plateforme dintelligence artificielle pour analyser les tendances 
-                des réseaux sociaux en temps réel. 🚀
+                Plateforme dintelligence artificielle pour analyser les
+                tendances des réseaux sociaux en temps réel. 🚀
               </p>
             </div>
             <div style={styles.footerLinks}>
               <div style={styles.footerColumn}>
                 <h4 style={styles.footerColumnTitle}>Produit</h4>
-                <a href="#" style={styles.footerLink}>Analytics</a>
-                <a href="#" style={styles.footerLink}>Prédictions</a>
-                <a href="#" style={styles.footerLink}>API</a>
-                <a href="#" style={styles.footerLink}>Intégrations</a>
+                <a href="#" style={styles.footerLink}>
+                  Analytics
+                </a>
+                <a href="#" style={styles.footerLink}>
+                  Prédictions
+                </a>
+                <a href="#" style={styles.footerLink}>
+                  API
+                </a>
+                <a href="#" style={styles.footerLink}>
+                  Intégrations
+                </a>
               </div>
               <div style={styles.footerColumn}>
                 <h4 style={styles.footerColumnTitle}>Ressources</h4>
-                <a href="#" style={styles.footerLink}>Documentation</a>
-                <a href="#" style={styles.footerLink}>Guides</a>
-                <a href="#" style={styles.footerLink}>Blog</a>
-                <a href="#" style={styles.footerLink}>Status</a>
+                <a href="#" style={styles.footerLink}>
+                  Documentation
+                </a>
+                <a href="#" style={styles.footerLink}>
+                  Guides
+                </a>
+                <a href="#" style={styles.footerLink}>
+                  Blog
+                </a>
+                <a href="#" style={styles.footerLink}>
+                  Status
+                </a>
               </div>
               <div style={styles.footerColumn}>
                 <h4 style={styles.footerColumnTitle}>Support</h4>
-                <a href="#" style={styles.footerLink}>Centre daide</a>
-                <a href="#" style={styles.footerLink}>Contact</a>
-                <a href="#" style={styles.footerLink}>Communauté</a>
-                <a href="#" style={styles.footerLink}>Feedback</a>
+                <a href="#" style={styles.footerLink}>
+                  Centre daide
+                </a>
+                <a href="#" style={styles.footerLink}>
+                  Contact
+                </a>
+                <a href="#" style={styles.footerLink}>
+                  Communauté
+                </a>
+                <a href="#" style={styles.footerLink}>
+                  Feedback
+                </a>
               </div>
             </div>
           </div>
@@ -731,9 +1429,6 @@ export default function HeroBanner({ onCTAClick }) {
   );
 }
 
-// ================================
-// STYLES MODERNES REDESIGNÉS AVEC DÉGRADÉS PROFESSIONNELS
-// ================================
 const styles = {
   // ===== CONTAINER GLOBAL =====
   pageContainer: {
@@ -742,14 +1437,15 @@ const styles = {
     background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
   },
 
-  // ===== HERO SECTION MODERNE (INCHANGÉE) =====
+  // ===== HERO SECTION MODERNE =====
   heroSection: {
     minHeight: "100vh",
     position: "relative",
     display: "flex",
     alignItems: "center",
     overflow: "hidden",
-    background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%)",
+    background:
+      "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%)",
   },
 
   heroBackground: {
@@ -784,7 +1480,8 @@ const styles = {
   floatingElement: {
     position: "absolute",
     borderRadius: "50%",
-    background: "linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(217, 70, 239, 0.3))",
+    background:
+      "linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(217, 70, 239, 0.3))",
     filter: "blur(1px)",
     animation: "float 6s ease-in-out infinite",
   },
@@ -865,7 +1562,8 @@ const styles = {
   },
 
   titleHighlight: {
-    background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%)",
+    background:
+      "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%)",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
     backgroundClip: "text",
@@ -956,7 +1654,8 @@ const styles = {
     alignItems: "center",
     gap: "12px",
     padding: "18px 36px",
-    background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%)",
+    background:
+      "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%)",
     color: "white",
     border: "none",
     borderRadius: "16px",
@@ -1037,1267 +1736,2093 @@ const styles = {
     marginTop: "2px",
   },
 
-  // ===== SECTIONS REDESIGNÉES AVEC DÉGRADÉS PROFESSIONNELS =====
-
-  // 🌊 SECTION MÉTRIQUES LIVE - Dégradé Bleu Océan Professionnel
-  liveSection: {
-    padding: "120px 0",
+  // ===== SECTION PLATEFORMES =====
+  revolutionaryPlatformsSection: {
+    padding: "150px 0",
     position: "relative",
     overflow: "hidden",
-    background: "linear-gradient(135deg, #0ea5e9 0%, #0284c7 25%, #0369a1 50%, #075985 75%, #0c4a6e 100%)",
+    background:
+      "linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%)",
+    perspective: "1000px",
   },
 
-  liveSectionOverlay: {
+  revolutionaryBackground: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    background: `
-      radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.3) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.3) 0%, transparent 50%),
-      linear-gradient(45deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)
-    `,
-  },
-
-  // 🔥 SECTION CONTENU VIRAL - Dégradé Orange/Rouge Dynamique
-  contentSection: {
-    padding: "120px 0",
-    position: "relative",
     overflow: "hidden",
-    background: "linear-gradient(135deg, #f97316 0%, #ea580c 25%, #dc2626 50%, #b91c1c 75%, #991b1b 100%)",
   },
 
-  contentSectionOverlay: {
+  particle: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: `
-      radial-gradient(circle at 30% 40%, rgba(251, 146, 60, 0.4) 0%, transparent 50%),
-      radial-gradient(circle at 70% 80%, rgba(239, 68, 68, 0.4) 0%, transparent 50%),
-      linear-gradient(225deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)
-    `,
+    background: "radial-gradient(circle, #00ffff, transparent)",
+    borderRadius: "50%",
+    animation: "particleFloat 3s ease-in-out infinite",
+    pointerEvents: "none",
   },
 
-  // 💛 SECTION HASHTAGS - Dégradé Doré/Ambre Luxueux
-  hashtagSection: {
-    padding: "120px 0",
-    position: "relative",
-    overflow: "hidden",
-    background: "linear-gradient(135deg, #fbbf24 0%, #f59e0b 25%, #d97706 50%, #b45309 75%, #92400e 100%)",
-  },
-
-  hashtagSectionOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: `
-      radial-gradient(circle at 25% 25%, rgba(252, 211, 77, 0.4) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.4) 0%, transparent 50%),
-      linear-gradient(315deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)
-    `,
-  },
-
-  // 💜 SECTION INFLUENCEURS - Dégradé Rose/Violet Élégant
-  influencerSection: {
-    padding: "120px 0",
-    position: "relative",
-    overflow: "hidden",
-    background: "linear-gradient(135deg, #ec4899 0%, #d946ef 25%, #c026d3 50%, #a21caf 75%, #86198f 100%)",
-  },
-
-  influencerSectionOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: `
-      radial-gradient(circle at 40% 20%, rgba(244, 114, 182, 0.4) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(217, 70, 239, 0.4) 0%, transparent 50%),
-      linear-gradient(45deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)
-    `,
-  },
-
-  // 🧠 SECTION ANALYTICS - Dégradé Violet/Indigo Tech
-  analyticsSection: {
-    padding: "120px 0",
-    position: "relative",
-    overflow: "hidden",
-    background: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 25%, #6d28d9 50%, #5b21b6 75%, #4c1d95 100%)",
-  },
-
-  analyticsSectionOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: `
-      radial-gradient(circle at 60% 40%, rgba(147, 51, 234, 0.4) 0%, transparent 50%),
-      radial-gradient(circle at 20% 70%, rgba(124, 58, 237, 0.4) 0%, transparent 50%),
-      linear-gradient(225deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)
-    `,
-  },
-
-
-// Contenu principal de la carte Optimisation Horaire
-timingContent: {
-  textAlign: "center",
-  position: "relative",
-  zIndex: 2,
-},
-
-// Container du meilleur créneau
-bestTimeContainer: {
-  marginBottom: "32px",
-  padding: "20px",
-  background: "rgba(255, 255, 255, 0.1)",
-  borderRadius: "20px",
-  border: "1px solid rgba(255, 255, 255, 0.2)",
-},
-
-// Heure du meilleur créneau (gros chiffre)
-bestTime: {
-  fontSize: "3.5rem",
-  fontWeight: "900",
-  color: "#10b981",
-  marginBottom: "8px",
-  lineHeight: "1",
-  textShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",
-},
-
-// Label sous le meilleur créneau
-bestTimeLabel: {
-  fontSize: "1.2rem",
-  color: "#10b981",
-  fontWeight: "700",
-  textShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-},
-
-// Container des créneaux horaires
-timingStats: {
-  display: "flex",
-  flexDirection: "column",
-  gap: "16px",
-},
-
-// Chaque créneau horaire
-timeSlot: {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  padding: "16px 20px",
-  background: "rgba(255, 255, 255, 0.1)",
-  borderRadius: "16px",
-  border: "1px solid rgba(255, 255, 255, 0.2)",
-  backdropFilter: "blur(10px)",
-},
-
-// Texte de la plage horaire (ex: "9h-12h")
-timeRange: {
-  color: "rgba(255, 255, 255, 0.95)",
-  fontWeight: "600",
-  fontSize: "16px",
-  textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-},
-
-// Pourcentage d'engagement
-engagementRate: {
-  color: "#10b981",
-  fontWeight: "700",
-  fontSize: "16px",
-  textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-},
-
-  // 💚 SECTION PLATEFORMES - Dégradé Vert/Teal Moderne
-  platformsSection: {
-    padding: "120px 0",
-    position: "relative",
-    overflow: "hidden",
-    background: "linear-gradient(135deg, #10b981 0%, #059669 25%, #047857 50%, #065f46 75%, #064e3b 100%)",
-  },
-
-  platformsSectionOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: `
-      radial-gradient(circle at 30% 60%, rgba(52, 211, 153, 0.4) 0%, transparent 50%),
-      radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.4) 0%, transparent 50%),
-      linear-gradient(315deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)
-    `,
-  },
-
-  // ===== HEADERS COMMUNS =====
-  sectionHeader: {
+  revolutionarySectionHeader: {
     textAlign: "center",
-    marginBottom: "80px",
+    marginBottom: "100px",
     position: "relative",
     zIndex: 10,
   },
 
-  sectionIconContainer: {
+  revolutionaryHeaderBackground: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "200px",
+    height: "200px",
+    background: "radial-gradient(circle, rgba(0, 255, 255, 0.1), transparent)",
+    borderRadius: "50%",
+    filter: "blur(20px)",
+  },
+
+  revolutionaryIconContainer: {
+    position: "relative",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100px",
+    height: "100px",
+    background:
+      "linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2))",
+    backdropFilter: "blur(20px)",
+    borderRadius: "30px",
+    marginBottom: "40px",
+    border: "2px solid rgba(0, 255, 255, 0.3)",
+    boxShadow: "0 20px 40px rgba(0, 255, 255, 0.2)",
+  },
+
+  revolutionaryIcon: {
+    color: "#00ffff",
+    filter: "drop-shadow(0 0 10px #00ffff)",
+  },
+
+  iconPulse: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    border: "2px solid #00ffff",
+    borderRadius: "30px",
+    animation: "iconPulse 2s ease-in-out infinite",
+  },
+
+  revolutionaryTitle: {
+    fontSize: "4rem",
+    fontWeight: "900",
+    color: "#ffffff",
+    marginBottom: "20px",
+    letterSpacing: "-0.02em",
+    textShadow: "0 0 20px rgba(0, 255, 255, 0.5)",
+  },
+
+  titleGradient: {
+    background: "linear-gradient(90deg, #00ffff, #ff00ff, #ffff00)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+    animation: "textShimmer 3s ease-in-out infinite",
+  },
+
+  revolutionarySubtitle: {
+    fontSize: "1.4rem",
+    color: "rgba(255, 255, 255, 0.8)",
+    fontWeight: "500",
+    textShadow: "0 0 10px rgba(255, 255, 255, 0.3)",
+  },
+
+  // Grid hexagonal
+  hexagonalGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+    gap: "60px",
+    position: "relative",
+    zIndex: 10,
+    marginBottom: "100px",
+  },
+
+  hexagonCard: {
+    position: "relative",
+    background:
+      "linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1))",
+    backdropFilter: "blur(25px)",
+    border: "2px solid rgba(0, 255, 255, 0.3)",
+    borderRadius: "30px",
+    padding: "40px",
+    transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+    cursor: "pointer",
+    transformStyle: "preserve-3d",
+    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
+    overflow: "hidden",
+  },
+
+  hologramEffect: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: "30px",
+    opacity: 0.3,
+    animation: "hologramScan 2s ease-in-out infinite",
+  },
+
+  hexagonContent: {
+    position: "relative",
+    zIndex: 2,
+    textAlign: "center",
+  },
+
+  platformMegaIcon: {
+    width: "80px",
+    height: "80px",
+    borderRadius: "20px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "0 auto 30px",
+    position: "relative",
+    boxShadow: "0 15px 30px rgba(0, 0, 0, 0.3)",
+  },
+
+  iconGlow: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: "20px",
+    background: "inherit",
+    filter: "blur(10px)",
+    opacity: 0.7,
+    animation: "iconGlow 2s ease-in-out infinite",
+  },
+
+  platformMegaTitle: {
+    fontSize: "1.8rem",
+    fontWeight: "700",
+    color: "#ffffff",
+    marginBottom: "30px",
+    textShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+  },
+
+  platformMetrics: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "30px",
+  },
+
+  metricItem: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+
+  metricLabel: {
+    fontSize: "12px",
+    color: "rgba(255, 255, 255, 0.7)",
+    textTransform: "uppercase",
+    letterSpacing: "0.05em",
+    marginBottom: "8px",
+  },
+
+  metricValue: {
+    fontSize: "18px",
+    fontWeight: "700",
+    color: "#00ffff",
+    textShadow: "0 0 10px #00ffff",
+  },
+
+  platformProgress: {
+    display: "flex",
+    alignItems: "center",
+    gap: "15px",
+    marginBottom: "30px",
+  },
+
+  progressBar: {
+    flex: 1,
+    height: "8px",
+    background: "rgba(255, 255, 255, 0.2)",
+    borderRadius: "4px",
+    overflow: "hidden",
+  },
+
+  progressFill: {
+    height: "100%",
+    borderRadius: "4px",
+    animation: "progressFill 2s ease-in-out infinite",
+  },
+
+  growthBadge: {
+    padding: "8px 12px",
+    background: "rgba(0, 255, 255, 0.2)",
+    color: "#00ffff",
+    borderRadius: "20px",
+    fontSize: "14px",
+    fontWeight: "700",
+    border: "1px solid rgba(0, 255, 255, 0.3)",
+    textShadow: "0 0 10px #00ffff",
+  },
+
+  futuristicChart: {
+    display: "flex",
+    alignItems: "flex-end",
+    height: "60px",
+    gap: "4px",
+    justifyContent: "center",
+  },
+
+  chartColumn: {
+    width: "12px",
+    borderRadius: "6px 6px 0 0",
+    animation: "chartPulse 2s ease-in-out infinite",
+    boxShadow: "0 0 10px currentColor",
+  },
+
+  neonBorder: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: "30px",
+    border: "2px solid transparent",
+    animation: "neonPulse 3s ease-in-out infinite",
+  },
+
+  centralControlPanel: {
+    position: "relative",
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 255, 0.1))",
+    backdropFilter: "blur(30px)",
+    border: "2px solid rgba(0, 255, 255, 0.3)",
+    borderRadius: "30px",
+    padding: "50px",
+    textAlign: "center",
+    boxShadow: "0 30px 60px rgba(0, 255, 255, 0.2)",
+  },
+
+  controlPanelGlow: {
+    position: "absolute",
+    top: "-2px",
+    left: "-2px",
+    right: "-2px",
+    bottom: "-2px",
+    background: "linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ffff)",
+    borderRadius: "30px",
+    opacity: 0.3,
+    filter: "blur(10px)",
+    animation: "panelGlow 4s linear infinite",
+    zIndex: -1,
+  },
+
+  controlPanelContent: {
+    position: "relative",
+    zIndex: 2,
+  },
+
+  controlPanelTitle: {
+    fontSize: "1.5rem",
+    fontWeight: "700",
+    color: "#ffffff",
+    marginBottom: "30px",
+    textShadow: "0 0 15px rgba(0, 255, 255, 0.7)",
+  },
+
+  controlMetrics: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+    gap: "30px",
+  },
+
+  controlMetric: {
+    display: "flex",
+    alignItems: "center",
+    gap: "15px",
+    color: "#ffffff",
+    fontSize: "16px",
+    fontWeight: "600",
+  },
+
+  statusDot: {
+    width: "12px",
+    height: "12px",
+    background: "#00ff00",
+    borderRadius: "50%",
+    animation: "statusPulse 1.5s ease-in-out infinite",
+    boxShadow: "0 0 10px #00ff00",
+  },
+
+  // ===== SECTION MÉTRIQUES LIVE =====
+  revolutionaryLiveSection: {
+    padding: "150px 0",
+    position: "relative",
+    overflow: "hidden",
+    background:
+      "linear-gradient(135deg, #000000 0%, #1a0033 50%, #330066 100%)",
+  },
+
+  matrixBackground: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    overflow: "hidden",
+    opacity: 0.3,
+  },
+
+  matrixColumn: {
+    position: "absolute",
+    color: "#00ff41",
+    fontSize: "14px",
+    fontFamily: "monospace",
+    animation: "matrixRain linear infinite",
+    textShadow: "0 0 5px #00ff41",
+  },
+
+  matrixChar: {
+    display: "block",
+    lineHeight: "20px",
+    opacity: Math.random(),
+  },
+
+  vortexGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+    gap: "80px",
+    position: "relative",
+    zIndex: 10,
+    marginBottom: "100px",
+  },
+
+  vortexCard: {
+    position: "relative",
+    background:
+      "linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1))",
+    backdropFilter: "blur(25px)",
+    border: "2px solid rgba(0, 255, 255, 0.3)",
+    borderRadius: "25px",
+    padding: "40px",
+    transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+    transformStyle: "preserve-3d",
+    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.3)",
+    overflow: "hidden",
+  },
+
+  holographicBackground: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background:
+      "linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent)",
+    borderRadius: "25px",
+    animation: "holographicScan 3s ease-in-out infinite",
+  },
+
+  concentricCircles: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "200px",
+    height: "200px",
+  },
+
+  circle1: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "60px",
+    height: "60px",
+    border: "2px solid rgba(0, 255, 255, 0.3)",
+    borderRadius: "50%",
+    animation: "circleExpand 3s ease-in-out infinite",
+  },
+
+  circle2: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "100px",
+    height: "100px",
+    border: "2px solid rgba(255, 0, 255, 0.3)",
+    borderRadius: "50%",
+    animation: "circleExpand 3s ease-in-out infinite 0.5s",
+  },
+
+  circle3: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "140px",
+    height: "140px",
+    border: "2px solid rgba(255, 255, 0, 0.3)",
+    borderRadius: "50%",
+    animation: "circleExpand 3s ease-in-out infinite 1s",
+  },
+
+  vortexCardContent: {
+    position: "relative",
+    zIndex: 2,
+    textAlign: "center",
+  },
+
+  metricIconQuantum: {
+    position: "relative",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
     width: "80px",
     height: "80px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(20px)",
-    borderRadius: "24px",
-    marginBottom: "32px",
-    boxShadow: "0 15px 35px rgba(0, 0, 0, 0.1)",
-    border: "2px solid rgba(255, 255, 255, 0.3)",
+    background:
+      "linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2))",
+    borderRadius: "20px",
+    marginBottom: "30px",
+    border: "2px solid rgba(0, 255, 255, 0.4)",
   },
 
-  sectionIcon: {
-    color: "white",
-    filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))",
+  quantumIcon: {
+    color: "#00ffff",
+    filter: "drop-shadow(0 0 10px #00ffff)",
   },
 
-  sectionTitle: {
-    fontSize: "3.5rem",
-    fontWeight: "900",
-    color: "white",
-    marginBottom: "16px",
-    letterSpacing: "-0.02em",
-    textShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",
-  },
-
-  sectionSubtitle: {
-    fontSize: "1.4rem",
-    color: "rgba(255, 255, 255, 0.95)",
-    fontWeight: "500",
-    textShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-  },
-
-  // ===== MÉTRIQUES LIVE REDESIGNÉES =====
-  metricsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-    gap: "40px",
-    position: "relative",
-    zIndex: 10,
-  },
-
-  metricCard: {
-    background: "rgba(255, 255, 255, 0.1)",
-    backdropFilter: "blur(25px)",
-    padding: "40px",
-    borderRadius: "28px",
-    border: "2px solid rgba(255, 255, 255, 0.2)",
-    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-    position: "relative",
-    overflow: "hidden",
-    boxShadow: "0 15px 35px rgba(0, 0, 0, 0.15)",
-  },
-
-  metricCardGlow: {
+  quantumPulse: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    borderRadius: "28px",
-    opacity: 0,
-    transition: "opacity 0.4s ease",
+    top: "-4px",
+    left: "-4px",
+    right: "-4px",
+    bottom: "-4px",
+    border: "2px solid #00ffff",
+    borderRadius: "20px",
+    animation: "quantumPulse 2s ease-in-out infinite",
   },
 
-  metricHeader: {
-    display: "flex",
-    alignItems: "center",
-    gap: "16px",
-    marginBottom: "24px",
-    position: "relative",
-    zIndex: 2,
+  metricDataQuantum: {
+    marginBottom: "30px",
   },
 
-  metricIconContainer: {
-    width: "56px",
-    height: "56px",
-    borderRadius: "16px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    border: "2px solid rgba(255, 255, 255, 0.3)",
-    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
-  },
-
-  metricIcon: {
-    color: "white",
-    filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))",
-  },
-
-  metricLabel: {
-    fontSize: "16px",
-    color: "rgba(255, 255, 255, 0.9)",
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: "0.05em",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  metricValue: {
-    fontSize: "3rem",
-    fontWeight: "900",
-    color: "white",
-    lineHeight: "1",
-    textShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",
-    marginBottom: "12px",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  metricTrend: {
-    fontSize: "14px",
-    color: "#10b981",
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: "0.05em",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  metricPulse: {
-    position: "absolute",
-    top: "8px",
-    right: "8px",
-    width: "16px",
-    height: "16px",
-    background: "#10b981",
-    borderRadius: "50%",
-    animation: "pulse 2s infinite",
-    boxShadow: "0 0 0 0 rgba(16, 185, 129, 0.7)",
-  },
-
-  // ===== CONTENU VIRAL REDESIGNÉ =====
-  featuredContent: {
-    display: "flex",
-    gap: "48px",
-    alignItems: "center",
-    background: "rgba(255, 255, 255, 0.1)",
-    backdropFilter: "blur(25px)",
-    padding: "48px",
-    borderRadius: "32px",
-    border: "2px solid rgba(255, 255, 255, 0.2)",
-    marginBottom: "80px",
-    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.2)",
-    position: "relative",
-    overflow: "hidden",
-  },
-
-  featuredContentGlow: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    borderRadius: "32px",
-  },
-
-  featuredMedia: {
-    width: "120px",
-    height: "120px",
-    borderRadius: "28px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(15px)",
-    border: "3px solid rgba(255, 255, 255, 0.3)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-    boxShadow: "0 15px 30px rgba(0, 0, 0, 0.2)",
-  },
-
-  featuredIcon: {
-    color: "white",
-    filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))",
-  },
-
-  featuredPulse: {
-    position: "absolute",
-    top: "-8px",
-    right: "-8px",
-    width: "24px",
-    height: "24px",
-    background: "#10b981",
-    borderRadius: "50%",
-    animation: "pulse 2s infinite",
-    boxShadow: "0 0 0 0 rgba(16, 185, 129, 0.7)",
-  },
-
-  featuredInfo: {
-    flex: 1,
-    position: "relative",
-    zIndex: 2,
-  },
-
-  featuredTitle: {
-    fontSize: "2.25rem",
-    fontWeight: "800",
-    color: "white",
-    marginBottom: "16px",
-    lineHeight: "1.2",
-    textShadow: "0 6px 12px rgba(0, 0, 0, 0.3)",
-  },
-
-  featuredMeta: {
-    display: "flex",
-    alignItems: "center",
-    gap: "24px",
-    marginBottom: "20px",
-  },
-
-  featuredCreator: {
-    color: "rgba(255, 255, 255, 0.9)",
-    fontWeight: "600",
-    fontSize: "18px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  featuredBadge: {
-    padding: "8px 16px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)",
-    color: "white",
-    borderRadius: "16px",
-    fontSize: "12px",
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: "0.05em",
-    border: "2px solid rgba(255, 255, 255, 0.3)",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  featuredStats: {
-    display: "flex",
-    gap: "40px",
-  },
-
-  featuredStat: {
-    display: "flex",
-    alignItems: "center",
-    gap: "12px",
-    color: "rgba(255, 255, 255, 0.9)",
-    fontSize: "18px",
-    fontWeight: "600",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  featuredGrowth: {
-    display: "flex",
-    alignItems: "center",
-    gap: "12px",
-    color: "#10b981",
-    fontSize: "18px",
-    fontWeight: "700",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  featuredBg: {
-    position: "absolute",
-    top: "20px",
-    right: "20px",
-    width: "100px",
-    height: "100px",
-    background: "radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%)",
-    borderRadius: "50%",
-  },
-
-  contentGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-    gap: "40px",
-    position: "relative",
-    zIndex: 10,
-  },
-
-  contentCard: {
-    background: "rgba(255, 255, 255, 0.1)",
-    backdropFilter: "blur(25px)",
-    padding: "40px",
-    borderRadius: "28px",
-    textAlign: "center",
-    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-    border: "2px solid rgba(255, 255, 255, 0.2)",
-    boxShadow: "0 15px 35px rgba(0, 0, 0, 0.15)",
-    position: "relative",
-    overflow: "hidden",
-  },
-
-  contentCardGlow: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    borderRadius: "28px",
-    opacity: 0,
-    transition: "opacity 0.4s ease",
-  },
-
-  contentCardMedia: {
-    width: "80px",
-    height: "80px",
-    borderRadius: "24px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)",
-    border: "2px solid rgba(255, 255, 255, 0.3)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: "0 auto 24px",
-    boxShadow: "0 12px 24px rgba(0, 0, 0, 0.15)",
-  },
-
-  contentCardIcon: {
-    color: "white",
-    filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))",
-  },
-
-  contentCardTitle: {
-    fontSize: "1.5rem",
-    fontWeight: "700",
-    color: "white",
-    marginBottom: "8px",
-    lineHeight: "1.3",
-    textShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  contentCardCreator: {
-    fontSize: "14px",
-    color: "rgba(255, 255, 255, 0.8)",
-    marginBottom: "20px",
-    fontWeight: "500",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  contentCardStats: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  contentCardViews: {
-    color: "rgba(255, 255, 255, 0.9)",
-    fontWeight: "600",
-    fontSize: "16px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  contentCardGrowth: {
-    color: "#10b981",
-    fontWeight: "700",
-    fontSize: "16px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  // ===== HASHTAGS REDESIGNÉS =====
-  featuredHashtag: {
-    display: "flex",
-    gap: "48px",
-    alignItems: "center",
-    background: "rgba(255, 255, 255, 0.1)",
-    backdropFilter: "blur(25px)",
-    padding: "48px",
-    borderRadius: "32px",
-    border: "2px solid rgba(255, 255, 255, 0.2)",
-    marginBottom: "80px",
-    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.2)",
-    position: "relative",
-    overflow: "hidden",
-  },
-
-  featuredHashtagGlow: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    borderRadius: "32px",
-  },
-
-  hashtagIcon: {
-    width: "120px",
-    height: "120px",
-    borderRadius: "28px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(15px)",
-    border: "3px solid rgba(255, 255, 255, 0.3)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "white",
-    position: "relative",
-    boxShadow: "0 15px 30px rgba(0, 0, 0, 0.2)",
-  },
-
-  hashtagPulse: {
-    position: "absolute",
-    top: "-8px",
-    right: "-8px",
-    width: "24px",
-    height: "24px",
-    background: "#10b981",
-    borderRadius: "50%",
-    animation: "pulse 2s infinite",
-    boxShadow: "0 0 0 0 rgba(16, 185, 129, 0.7)",
-  },
-
-  hashtagInfo: {
-    flex: 1,
-    position: "relative",
-    zIndex: 2,
-  },
-
-  hashtagTitle: {
-    fontSize: "2.25rem",
-    fontWeight: "800",
-    color: "white",
-    marginBottom: "16px",
-    textShadow: "0 6px 12px rgba(0, 0, 0, 0.3)",
-  },
-
-  hashtagMeta: {
-    display: "flex",
-    alignItems: "center",
-    gap: "24px",
-    marginBottom: "20px",
-  },
-
-  hashtagCount: {
-    color: "rgba(255, 255, 255, 0.9)",
-    fontWeight: "600",
-    fontSize: "18px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  hashtagBadge: {
-    padding: "8px 16px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)",
-    color: "white",
-    borderRadius: "16px",
-    fontSize: "12px",
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: "0.05em",
-    border: "2px solid rgba(255, 255, 255, 0.3)",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  hashtagGrowth: {
-    display: "flex",
-    alignItems: "center",
-    gap: "12px",
-    color: "#10b981",
-    fontSize: "18px",
-    fontWeight: "700",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  hashtagGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-    gap: "40px",
-    position: "relative",
-    zIndex: 10,
-  },
-
-  hashtagCard: {
-    background: "rgba(255, 255, 255, 0.1)",
-    backdropFilter: "blur(25px)",
-    padding: "32px",
-    borderRadius: "28px",
-    border: "2px solid rgba(255, 255, 255, 0.2)",
-    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-    boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
-    position: "relative",
-    overflow: "hidden",
-  },
-
-  hashtagCardGlow: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    borderRadius: "28px",
-    opacity: 0,
-    transition: "opacity 0.4s ease",
-  },
-
-  hashtagCardHeader: {
-    display: "flex",
-    alignItems: "center",
-    gap: "16px",
-    marginBottom: "24px",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  hashtagCardIcon: {
-    color: "white",
-    filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))",
-  },
-
-  hashtagCardTag: {
-    fontSize: "1.5rem",
-    fontWeight: "700",
-    color: "white",
-    textShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-  },
-
-  hashtagCardStats: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "16px",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  hashtagCardCount: {
-    color: "rgba(255, 255, 255, 0.9)",
-    fontWeight: "600",
-    fontSize: "16px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  hashtagCardGrowth: {
-    color: "#10b981",
-    fontWeight: "700",
-    fontSize: "16px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  hashtagCardPlatform: {
+  quantumLabel: {
+    display: "block",
     fontSize: "14px",
     color: "rgba(255, 255, 255, 0.7)",
-    fontWeight: "500",
-    textAlign: "center",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  // ===== INFLUENCEURS REDESIGNÉS =====
-  featuredInfluencer: {
-    display: "flex",
-    gap: "48px",
-    alignItems: "center",
-    background: "rgba(255, 255, 255, 0.1)",
-    backdropFilter: "blur(25px)",
-    padding: "48px",
-    borderRadius: "32px",
-    border: "2px solid rgba(255, 255, 255, 0.2)",
-    marginBottom: "80px",
-    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.2)",
-    position: "relative",
-    overflow: "hidden",
-  },
-
-  featuredInfluencerGlow: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    borderRadius: "32px",
-  },
-
-  influencerAvatar: {
-    width: "120px",
-    height: "120px",
-    borderRadius: "28px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(15px)",
-    border: "3px solid rgba(255, 255, 255, 0.3)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "white",
-    position: "relative",
-    boxShadow: "0 15px 30px rgba(0, 0, 0, 0.2)",
-  },
-
-  influencerPulse: {
-    position: "absolute",
-    top: "-8px",
-    right: "-8px",
-    width: "24px",
-    height: "24px",
-    background: "#10b981",
-    borderRadius: "50%",
-    animation: "pulse 2s infinite",
-    boxShadow: "0 0 0 0 rgba(16, 185, 129, 0.7)",
-  },
-
-  influencerInfo: {
-    flex: 1,
-    position: "relative",
-    zIndex: 2,
-  },
-
-  influencerName: {
-    fontSize: "2.25rem",
-    fontWeight: "800",
-    color: "white",
-    marginBottom: "16px",
-    textShadow: "0 6px 12px rgba(0, 0, 0, 0.3)",
-  },
-
-  influencerMeta: {
-    display: "flex",
-    alignItems: "center",
-    gap: "24px",
-    marginBottom: "20px",
-  },
-
-  influencerFollowers: {
-    color: "rgba(255, 255, 255, 0.9)",
-    fontWeight: "600",
-    fontSize: "18px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  influencerBadge: {
-    padding: "8px 16px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)",
-    color: "white",
-    borderRadius: "16px",
-    fontSize: "12px",
-    fontWeight: "700",
     textTransform: "uppercase",
-    letterSpacing: "0.05em",
-    border: "2px solid rgba(255, 255, 255, 0.3)",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
+    letterSpacing: "0.1em",
+    marginBottom: "10px",
   },
 
-  influencerEngagement: {
-    display: "flex",
-    alignItems: "center",
-    gap: "12px",
-    color: "#10b981",
-    fontSize: "18px",
-    fontWeight: "700",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  influencersGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-    gap: "40px",
-    position: "relative",
-    zIndex: 10,
-  },
-
-  influencerCard: {
-    background: "rgba(255, 255, 255, 0.1)",
-    backdropFilter: "blur(25px)",
-    padding: "40px",
-    borderRadius: "28px",
-    textAlign: "center",
-    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-    border: "2px solid rgba(255, 255, 255, 0.2)",
-    boxShadow: "0 12px 30px rgba(0, 0, 0, 0.15)",
-    position: "relative",
-    overflow: "hidden",
-  },
-
-  influencerCardGlow: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    borderRadius: "28px",
-    opacity: 0,
-    transition: "opacity 0.4s ease",
-  },
-
-  influencerCardAvatar: {
-    width: "80px",
-    height: "80px",
-    borderRadius: "24px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)",
-    border: "2px solid rgba(255, 255, 255, 0.3)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: "0 auto 24px",
-    color: "white",
-    boxShadow: "0 12px 24px rgba(0, 0, 0, 0.15)",
-  },
-
-  influencerCardName: {
-    fontSize: "1.5rem",
-    fontWeight: "700",
-    color: "white",
-    marginBottom: "8px",
-    textShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  influencerCardPlatform: {
-    fontSize: "14px",
-    color: "rgba(255, 255, 255, 0.8)",
-    marginBottom: "20px",
-    fontWeight: "500",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  influencerCardStats: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  influencerCardFollowers: {
-    color: "rgba(255, 255, 255, 0.9)",
-    fontWeight: "600",
-    fontSize: "16px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  influencerCardEngagement: {
-    color: "#10b981",
-    fontWeight: "700",
-    fontSize: "16px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  // ===== ANALYTICS REDESIGNÉS =====
-  analyticsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
-    gap: "40px",
-    position: "relative",
-    zIndex: 10,
-  },
-
-  analyticsCard: {
-    background: "rgba(255, 255, 255, 0.1)",
-    backdropFilter: "blur(25px)",
-    padding: "40px",
-    borderRadius: "28px",
-    border: "2px solid rgba(255, 255, 255, 0.2)",
-    boxShadow: "0 15px 35px rgba(0, 0, 0, 0.15)",
-    position: "relative",
-    overflow: "hidden",
-  },
-
-  analyticsCardGlow: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    borderRadius: "28px",
-    opacity: 0,
-    transition: "opacity 0.4s ease",
-  },
-
-  analyticsCardHeader: {
-    display: "flex",
-    alignItems: "center",
-    gap: "16px",
-    marginBottom: "32px",
-    color: "white",
-    fontWeight: "700",
-    fontSize: "18px",
-    textShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  predictionContent: {
-    textAlign: "center",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  predictionText: {
-    fontSize: "1.4rem",
-    color: "rgba(255, 255, 255, 0.95)",
-    fontStyle: "italic",
-    marginBottom: "28px",
-    lineHeight: "1.6",
-    fontWeight: "500",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  confidenceContainer: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
-  },
-
-  confidenceBar: {
-    position: "relative",
-    height: "16px",
-    background: "rgba(255, 255, 255, 0.2)",
-    borderRadius: "12px",
-    overflow: "hidden",
-    border: "1px solid rgba(255, 255, 255, 0.3)",
-  },
-
-  confidenceFill: {
-    width: "94%",
-    height: "100%",
-    background: "linear-gradient(90deg, #10b981, #34d399, #6ee7b7)",
-    borderRadius: "12px",
-    position: "relative",
-    boxShadow: "0 0 12px rgba(16, 185, 129, 0.5)",
-  },
-
-  confidenceText: {
-    fontSize: "16px",
-    color: "#10b981",
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: "0.05em",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-    textAlign: "center",
-  },
-
-  sentimentContent: {
-    textAlign: "center",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  sentimentScore: {
-    fontSize: "4rem",
+  quantumValue: {
+    display: "block",
+    fontSize: "3rem",
     fontWeight: "900",
-    color: "#10b981",
-    marginBottom: "12px",
+    color: "#ffffff",
+    marginBottom: "15px",
+    textShadow: "0 0 20px rgba(0, 255, 255, 0.5)",
     lineHeight: "1",
-    textShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",
   },
 
-  sentimentLabel: {
-    fontSize: "1.5rem",
-    color: "#10b981",
-    fontWeight: "700",
-    marginBottom: "24px",
-    textShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-  },
-
-  sentimentBar: {
-    height: "16px",
-    background: "rgba(255, 255, 255, 0.2)",
-    borderRadius: "12px",
-    overflow: "hidden",
-    border: "1px solid rgba(255, 255, 255, 0.3)",
-  },
-
-  sentimentFill: {
-    width: "87%",
-    height: "100%",
-    background: "linear-gradient(90deg, #10b981, #34d399)",
-    borderRadius: "12px",
-    boxShadow: "0 0 12px rgba(16, 185, 129, 0.5)",
-  },
-
-  categoriesContent: {
+  quantumTrend: {
     display: "flex",
-    flexDirection: "column",
-    gap: "20px",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  categoryItem: {
-    display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
-    padding: "16px 20px",
-    background: "rgba(255, 255, 255, 0.1)",
-    borderRadius: "16px",
-    border: "1px solid rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)",
-  },
-
-  categoryName: {
-    color: "rgba(255, 255, 255, 0.95)",
-    fontWeight: "600",
-    fontSize: "18px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-  },
-
-  categoryPercentage: {
-    color: "white",
+    justifyContent: "center",
+    gap: "8px",
+    color: "#00ff88",
+    fontSize: "16px",
     fontWeight: "700",
-    fontSize: "18px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
   },
 
-  // ===== PLATEFORMES REDESIGNÉES =====
-  platformsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))",
-    gap: "40px",
-    position: "relative",
-    zIndex: 10,
+  dataVisualization: {
+    display: "flex",
+    alignItems: "flex-end",
+    height: "60px",
+    gap: "3px",
+    justifyContent: "center",
+    marginBottom: "20px",
   },
 
-  platformCard: {
-    background: "rgba(255, 255, 255, 0.1)",
-    backdropFilter: "blur(25px)",
-    padding: "40px",
-    borderRadius: "28px",
-    border: "2px solid rgba(255, 255, 255, 0.2)",
-    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-    boxShadow: "0 15px 35px rgba(0, 0, 0, 0.15)",
+  dataPoint: {
+    width: "8px",
+    borderRadius: "4px 4px 0 0",
+    animation: "dataPointPulse 2s ease-in-out infinite",
+    boxShadow: "0 0 8px currentColor",
+  },
+
+  scanLine: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    height: "2px",
+    background: "linear-gradient(90deg, transparent, #00ffff, transparent)",
+    animation: "scanLineMove 2s ease-in-out infinite",
+  },
+
+  // Terminal de commandement
+  commandTerminal: {
+    marginTop: "150px",
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(0, 50, 0, 0.9))",
+    backdropFilter: "blur(20px)",
+    border: "2px solid rgba(0, 255, 0, 0.3)",
+    borderRadius: "15px",
+    overflow: "hidden",
+    fontFamily: "monospace",
+    boxShadow: "0 20px 40px rgba(0, 255, 0, 0.2)",
+  },
+
+  terminalHeader: {
+    display: "flex",
+    alignItems: "center",
+    gap: "15px",
+    padding: "15px 20px",
+    background: "rgba(0, 0, 0, 0.5)",
+    borderBottom: "1px solid rgba(0, 255, 0, 0.3)",
+  },
+
+  terminalButtons: {
+    display: "flex",
+    gap: "8px",
+  },
+
+  terminalButton: {
+    width: "12px",
+    height: "12px",
+    borderRadius: "50%",
+    background: "#ff5f56",
+  },
+
+  terminalTitle: {
+    color: "#00ff00",
+    fontSize: "14px",
+    fontWeight: "600",
+  },
+
+  terminalContent: {
+    padding: "20px",
+  },
+
+  terminalLine: {
+    display: "flex",
+    gap: "10px",
+    marginBottom: "15px",
+  },
+
+  terminalPrompt: {
+    color: "#00ff00",
+    fontWeight: "600",
+  },
+
+  terminalCommand: {
+    color: "#ffffff",
+  },
+
+  terminalOutput: {
+    color: "#00ff88",
+    lineHeight: "1.6",
+  },
+
+  // ===== SECTION CONTENU VIRAL =====
+  revolutionaryContentSection: {
+    padding: "150px 0",
     position: "relative",
+    overflow: "hidden",
+    background:
+      "linear-gradient(135deg, #ff0080 0%, #ff8c00 25%, #ffd700 50%, #ff4500 75%, #dc143c 100%)",
+  },
+
+  content3DContainer: {
+    position: "relative",
+    marginBottom: "100px",
+  },
+
+  content3DCard: {
+    position: "relative",
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.1))",
+    backdropFilter: "blur(30px)",
+    border: "3px solid rgba(255, 255, 255, 0.3)",
+    borderRadius: "30px",
+    padding: "50px",
+    transform: "perspective(1000px) rotateX(5deg)",
+    boxShadow: "0 50px 100px rgba(0, 0, 0, 0.5)",
     overflow: "hidden",
   },
 
-  platformCardGlow: {
+  depthLayers: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    borderRadius: "28px",
-    opacity: 0,
-    transition: "opacity 0.4s ease",
   },
 
-  platformCardHeader: {
+  layer1: {
+    position: "absolute",
+    top: "10px",
+    left: "10px",
+    right: "10px",
+    bottom: "10px",
+    background: "rgba(255, 0, 128, 0.1)",
+    borderRadius: "25px",
+    filter: "blur(5px)",
+  },
+
+  layer2: {
+    position: "absolute",
+    top: "20px",
+    left: "20px",
+    right: "20px",
+    bottom: "20px",
+    background: "rgba(255, 140, 0, 0.1)",
+    borderRadius: "20px",
+    filter: "blur(10px)",
+  },
+
+  layer3: {
+    position: "absolute",
+    top: "30px",
+    left: "30px",
+    right: "30px",
+    bottom: "30px",
+    background: "rgba(255, 215, 0, 0.1)",
+    borderRadius: "15px",
+    filter: "blur(15px)",
+  },
+
+  content3DHeader: {
     display: "flex",
-    alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: "32px",
+    alignItems: "center",
+    marginBottom: "40px",
     position: "relative",
     zIndex: 2,
   },
 
-  platformCardIcon: {
-    width: "72px",
-    height: "72px",
-    borderRadius: "20px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)",
-    border: "2px solid rgba(255, 255, 255, 0.3)",
+  viralBadge: {
+    position: "relative",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    boxShadow: "0 12px 24px rgba(0, 0, 0, 0.15)",
-  },
-
-  platformCardInfo: {
-    flex: 1,
-    marginLeft: "24px",
-  },
-
-  platformCardName: {
-    fontSize: "1.5rem",
-    fontWeight: "700",
-    color: "white",
-    marginBottom: "8px",
-    textShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-  },
-
-  platformCardGrowth: {
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    color: "#10b981",
+    gap: "10px",
+    padding: "15px 25px",
+    background: "linear-gradient(135deg, #ff0080, #ff4500)",
+    color: "#ffffff",
+    borderRadius: "25px",
     fontSize: "16px",
     fontWeight: "700",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
+    textTransform: "uppercase",
+    letterSpacing: "0.1em",
+    border: "2px solid rgba(255, 255, 255, 0.3)",
+    boxShadow: "0 10px 20px rgba(255, 0, 128, 0.3)",
   },
 
-  platformCardViews: {
+  badgePulse: {
+    position: "absolute",
+    top: "-3px",
+    left: "-3px",
+    right: "-3px",
+    bottom: "-3px",
+    border: "2px solid #ff0080",
+    borderRadius: "25px",
+    animation: "badgePulse 2s ease-in-out infinite",
+  },
+
+  viralScore: {
     textAlign: "right",
   },
 
-  viewsNumber: {
-    fontSize: "2rem",
-    fontWeight: "800",
-    color: "white",
-    lineHeight: "1",
-    textShadow: "0 6px 12px rgba(0, 0, 0, 0.3)",
-  },
-
-  viewsLabel: {
+  scoreLabel: {
+    display: "block",
     fontSize: "14px",
-    color: "rgba(255, 255, 255, 0.9)",
-    fontWeight: "600",
-    textTransform: "uppercase",
-    letterSpacing: "0.05em",
-    marginTop: "4px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
+    color: "rgba(255, 255, 255, 0.7)",
+    marginBottom: "8px",
   },
 
-  miniChart: {
+  scoreValue: {
+    display: "block",
+    fontSize: "2.5rem",
+    fontWeight: "900",
+    color: "#ffffff",
+    marginBottom: "15px",
+    textShadow: "0 0 20px rgba(255, 255, 255, 0.5)",
+  },
+
+  scoreBar: {
+    width: "200px",
+    height: "8px",
+    background: "rgba(255, 255, 255, 0.2)",
+    borderRadius: "4px",
+    overflow: "hidden",
+  },
+
+  scoreProgress: {
+    height: "100%",
+    background: "linear-gradient(90deg, #ff0080, #ff4500, #ffd700)",
+    borderRadius: "4px",
+    animation: "scoreProgress 3s ease-in-out infinite",
+  },
+
+  content3DBody: {
     display: "flex",
-    alignItems: "flex-end",
-    height: "64px",
-    gap: "6px",
-    marginBottom: "20px",
+    gap: "50px",
+    alignItems: "center",
+    marginBottom: "50px",
     position: "relative",
     zIndex: 2,
   },
 
-  chartBar: {
-    flex: 1,
-    borderRadius: "6px 6px 0 0",
-    opacity: 0.9,
-    transition: "all 0.3s ease",
-    minHeight: "25%",
+  videoThumbnail: {
+    position: "relative",
+    width: "200px",
+    height: "200px",
+    background:
+      "linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))",
+    backdropFilter: "blur(20px)",
+    border: "3px solid rgba(255, 255, 255, 0.3)",
+    borderRadius: "25px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
   },
 
-  platformCardBadge: {
+  thumbnailIcon: {
+    color: "#ffffff",
+    filter: "drop-shadow(0 0 20px rgba(255, 255, 255, 0.5))",
+  },
+
+  playOverlay: {
     position: "absolute",
-    top: "20px",
-    right: "20px",
-    padding: "6px 12px",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "60px",
+    height: "60px",
+    background: "rgba(255, 255, 255, 0.9)",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#000000",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+  },
+
+  thumbnailGlow: {
+    position: "absolute",
+    top: "-10px",
+    left: "-10px",
+    right: "-10px",
+    bottom: "-10px",
+    background: "linear-gradient(45deg, #ff0080, #ff4500, #ffd700)",
+    borderRadius: "30px",
+    opacity: 0.3,
+    filter: "blur(15px)",
+    animation: "thumbnailGlow 3s ease-in-out infinite",
+    zIndex: -1,
+  },
+
+  videoInfo: {
+    flex: 1,
+  },
+
+  videoTitle: {
+    fontSize: "2.5rem",
+    fontWeight: "800",
+    color: "#ffffff",
+    marginBottom: "20px",
+    textShadow: "0 0 20px rgba(255, 255, 255, 0.5)",
+  },
+
+  videoMeta: {
+    display: "flex",
+    gap: "20px",
+    marginBottom: "30px",
+    flexWrap: "wrap",
+  },
+
+  videoCreator: {
+    color: "rgba(255, 255, 255, 0.9)",
+    fontSize: "18px",
+    fontWeight: "600",
+  },
+
+  videoPlatform: {
+    padding: "8px 15px",
     background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)",
-    color: "white",
-    borderRadius: "12px",
-    fontSize: "12px",
-    fontWeight: "700",
+    color: "#ffffff",
+    borderRadius: "15px",
+    fontSize: "14px",
+    fontWeight: "600",
     border: "1px solid rgba(255, 255, 255, 0.3)",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-    zIndex: 3,
+  },
+
+  videoCategory: {
+    padding: "8px 15px",
+    background: "linear-gradient(135deg, #ff0080, #ff4500)",
+    color: "#ffffff",
+    borderRadius: "15px",
+    fontSize: "14px",
+    fontWeight: "600",
+  },
+
+  videoStats: {
+    display: "flex",
+    gap: "30px",
+  },
+
+  statItem: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    color: "#ffffff",
+    fontSize: "18px",
+    fontWeight: "600",
+  },
+
+  growthChart: {
+    position: "relative",
+    zIndex: 2,
+  },
+
+  chartTitle: {
+    fontSize: "1.5rem",
+    fontWeight: "700",
+    color: "#ffffff",
+    marginBottom: "20px",
+    textAlign: "center",
+  },
+
+  chartContainer: {
+    display: "flex",
+    alignItems: "flex-end",
+    height: "100px",
+    gap: "5px",
+    justifyContent: "center",
+  },
+
+  chartBar3D: {
+    width: "15px",
+    borderRadius: "8px 8px 0 0",
+    transform: "perspective(100px) rotateX(45deg)",
+    animation: "chartBar3D 2s ease-in-out infinite",
+    transformOrigin: "bottom",
+  },
+
+  satelliteCards: {
+    position: "absolute",
+    top: "0",
+    right: "-50px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+  },
+
+  satelliteCard: {
+    width: "250px",
+    padding: "20px",
+    background: "rgba(255, 255, 255, 0.1)",
+    backdropFilter: "blur(20px)",
+    border: "2px solid rgba(255, 255, 255, 0.2)",
+    borderRadius: "20px",
+    transition: "all 0.3s ease",
+  },
+
+  satelliteIcon: {
+    width: "40px",
+    height: "40px",
+    background: "linear-gradient(135deg, #ff0080, #ff4500)",
+    borderRadius: "12px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#ffffff",
+    marginBottom: "15px",
+  },
+
+  satelliteInfo: {
+    marginBottom: "15px",
+  },
+
+  satelliteTitle: {
+    fontSize: "16px",
+    fontWeight: "600",
+    color: "#ffffff",
+    marginBottom: "8px",
+  },
+
+  satelliteStats: {
+    display: "flex",
+    gap: "15px",
+    fontSize: "14px",
+    color: "rgba(255, 255, 255, 0.8)",
+  },
+
+  satelliteProgress: {
+    height: "4px",
+    background: "rgba(255, 255, 255, 0.2)",
+    borderRadius: "2px",
+    overflow: "hidden",
+  },
+
+  satelliteBar: {
+    height: "100%",
+    background: "linear-gradient(90deg, #ff0080, #ff4500)",
+    borderRadius: "2px",
+    transition: "width 0.3s ease",
+  },
+
+  predictionPanel: {
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.1))",
+    backdropFilter: "blur(30px)",
+    border: "3px solid rgba(255, 255, 255, 0.3)",
+    borderRadius: "25px",
+    padding: "40px",
+    boxShadow: "0 30px 60px rgba(0, 0, 0, 0.3)",
+  },
+
+  predictionHeader: {
+    display: "flex",
+    alignItems: "center",
+    gap: "15px",
+    marginBottom: "30px",
+    fontSize: "20px",
+    fontWeight: "700",
+    color: "#ffffff",
+  },
+
+  predictionContent: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+    gap: "30px",
+  },
+
+  predictionItem: {
+    padding: "25px",
+    background: "rgba(255, 255, 255, 0.1)",
+    borderRadius: "20px",
+    border: "2px solid rgba(255, 255, 255, 0.2)",
+  },
+
+  predictionLabel: {
+    display: "block",
+    fontSize: "14px",
+    color: "rgba(255, 255, 255, 0.7)",
+    marginBottom: "10px",
+    textTransform: "uppercase",
+    letterSpacing: "0.1em",
+  },
+
+  predictionValue: {
+    display: "block",
+    fontSize: "18px",
+    fontWeight: "700",
+    color: "#ffffff",
+    marginBottom: "10px",
+  },
+
+  predictionConfidence: {
+    fontSize: "14px",
+    color: "#00ff88",
+    fontWeight: "600",
+  },
+
+  // ===== SECTION HASHTAGS =====
+  revolutionaryHashtagSection: {
+    padding: "150px 0",
+    position: "relative",
+    overflow: "hidden",
+    background:
+      "linear-gradient(135deg, #ffb347 0%, #ffcc5c 25%, #ffd700 50%, #ff8c69 75%, #ff7f50 100%)",
+    perspective: "1000px",
+  },
+
+  hashtagCloud3D: {
+    position: "relative",
+    height: "600px",
+    marginBottom: "100px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  hashtagSphere: {
+    position: "absolute",
+    width: "200px",
+    height: "200px",
+    transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+    transformStyle: "preserve-3d",
+    cursor: "pointer",
+  },
+
+  sphereHologram: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background:
+      "linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent, rgba(255, 255, 255, 0.1))",
+    borderRadius: "50%",
+    animation: "sphereHologram 3s ease-in-out infinite",
+  },
+
+  sphereContent: {
+    position: "relative",
+    zIndex: 2,
+    width: "100%",
+    height: "100%",
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.1))",
+    backdropFilter: "blur(20px)",
+    border: "3px solid rgba(255, 255, 255, 0.3)",
+    borderRadius: "50%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "20px",
+    textAlign: "center",
+  },
+
+  hashtagIcon: {
+    width: "40px",
+    height: "40px",
+    background: "linear-gradient(135deg, #ffd700, #ff8c69)",
+    borderRadius: "12px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#ffffff",
+    marginBottom: "10px",
+  },
+
+  hashtagText: {
+    fontSize: "16px",
+    fontWeight: "700",
+    color: "#ffffff",
+    marginBottom: "8px",
+    textShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+  },
+
+  hashtagMetrics: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "5px",
+    marginBottom: "8px",
+  },
+
+  hashtagCount: {
+    fontSize: "12px",
+    color: "#ffd700",
+    fontWeight: "600",
+  },
+
+  hashtagGrowth: {
+    fontSize: "12px",
+    color: "#00ff88",
+    fontWeight: "600",
+  },
+
+  hashtagReach: {
+    fontSize: "10px",
+    color: "rgba(255, 255, 255, 0.7)",
+    marginBottom: "8px",
+  },
+
+  sentimentIndicator: {
+    width: "20px",
+    height: "20px",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "12px",
+  },
+
+  hashtagOrbits: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  },
+
+  orbit1: {
+    position: "absolute",
+    width: "220px",
+    height: "220px",
+    border: "1px solid rgba(255, 255, 255, 0.2)",
+    borderRadius: "50%",
+    animation: "orbitRotate 10s linear infinite",
+  },
+
+  orbit2: {
+    position: "absolute",
+    width: "260px",
+    height: "260px",
+    border: "1px solid rgba(255, 255, 255, 0.15)",
+    borderRadius: "50%",
+    animation: "orbitRotate 15s linear infinite reverse",
+  },
+
+  orbit3: {
+    position: "absolute",
+    width: "300px",
+    height: "300px",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    borderRadius: "50%",
+    animation: "orbitRotate 20s linear infinite",
+  },
+
+  hashtagControlCenter: {
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.1))",
+    backdropFilter: "blur(30px)",
+    border: "3px solid rgba(255, 255, 255, 0.3)",
+    borderRadius: "25px",
+    padding: "50px",
+    marginBottom: "50px",
+  },
+
+  controlCenterHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "40px",
+  },
+
+  controlCenterTitle: {
+    fontSize: "1.8rem",
+    fontWeight: "700",
+    color: "#ffffff",
+    textShadow: "0 0 15px rgba(255, 255, 255, 0.5)",
+  },
+
+  networkStatus: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    color: "#00ff88",
+    fontSize: "16px",
+    fontWeight: "600",
+  },
+
+  statusIndicator: {
+    width: "12px",
+    height: "12px",
+    background: "#00ff88",
+    borderRadius: "50%",
+    animation: "statusPulse 1.5s ease-in-out infinite",
+    boxShadow: "0 0 10px #00ff88",
+  },
+
+  networkVisualization: {
+    position: "relative",
+    height: "200px",
+    marginBottom: "40px",
+    background: "rgba(0, 0, 0, 0.3)",
+    borderRadius: "15px",
+    overflow: "hidden",
+  },
+
+  networkNodes: {
+    position: "relative",
+    width: "100%",
+    height: "100%",
+  },
+
+  networkNode: {
+    position: "absolute",
+    width: "20px",
+    height: "20px",
+    transform: "translate(-50%, -50%)",
+  },
+
+  nodeCore: {
+    width: "100%",
+    height: "100%",
+    background: "radial-gradient(circle, #00ffff, #0080ff)",
+    borderRadius: "50%",
+    boxShadow: "0 0 15px #00ffff",
+  },
+
+  nodePulse: {
+    position: "absolute",
+    top: "-5px",
+    left: "-5px",
+    right: "-5px",
+    bottom: "-5px",
+    border: "2px solid #00ffff",
+    borderRadius: "50%",
+    animation: "nodePulse 2s ease-in-out infinite",
+  },
+
+  networkSvg: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    pointerEvents: "none",
+  },
+
+  networkConnection: {
+    animation: "connectionPulse 3s ease-in-out infinite",
+  },
+
+  hashtagAnalytics: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+    gap: "30px",
+  },
+
+  analyticsItem: {
+    padding: "20px",
+    background: "rgba(255, 255, 255, 0.1)",
+    borderRadius: "15px",
+    textAlign: "center",
+    border: "2px solid rgba(255, 255, 255, 0.2)",
+  },
+
+  analyticsLabel: {
+    display: "block",
+    fontSize: "14px",
+    color: "rgba(255, 255, 255, 0.7)",
+    marginBottom: "10px",
+    textTransform: "uppercase",
+    letterSpacing: "0.1em",
+  },
+
+  analyticsValue: {
+    fontSize: "24px",
+    fontWeight: "700",
+    color: "#ffffff",
+    textShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+  },
+
+  // ===== SECTION INFLUENCEURS =====
+  revolutionaryInfluencerSection: {
+    padding: "150px 0",
+    position: "relative",
+    overflow: "hidden",
+    background:
+      "linear-gradient(135deg, #e91e63 0%, #9c27b0 25%, #673ab7 50%, #3f51b5 75%, #2196f3 100%)",
+    perspective: "1000px",
+  },
+
+  influencerGalaxy: {
+    position: "relative",
+    height: "600px",
+    marginBottom: "100px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  centralStar: {
+    position: "relative",
+    zIndex: 10,
+  },
+
+  starCore: {
+    position: "relative",
+    width: "150px",
+    height: "150px",
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.1))",
+    backdropFilter: "blur(20px)",
+    border: "3px solid rgba(255, 255, 255, 0.4)",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    boxShadow: "0 0 50px rgba(255, 255, 255, 0.3)",
+  },
+
+  starIcon: {
+    color: "#ffffff",
+    filter: "drop-shadow(0 0 20px rgba(255, 255, 255, 0.7))",
+  },
+
+  starPulse: {
+    position: "absolute",
+    top: "-10px",
+    left: "-10px",
+    right: "-10px",
+    bottom: "-10px",
+    border: "3px solid rgba(255, 255, 255, 0.6)",
+    borderRadius: "50%",
+    animation: "starPulse 3s ease-in-out infinite",
+  },
+
+  starInfo: {
+    position: "absolute",
+    top: "170px",
+    left: "50%",
+    transform: "translateX(-50%)",
+    textAlign: "center",
+    whiteSpace: "nowrap",
+  },
+
+  starName: {
+    fontSize: "20px",
+    fontWeight: "700",
+    color: "#ffffff",
+    marginBottom: "8px",
+    textShadow: "0 0 15px rgba(255, 255, 255, 0.7)",
+  },
+
+  starTier: {
+    fontSize: "14px",
+    color: "#ffd700",
+    fontWeight: "600",
+    marginBottom: "10px",
+  },
+
+  starStats: {
+    display: "flex",
+    gap: "15px",
+    fontSize: "12px",
+    color: "rgba(255, 255, 255, 0.8)",
+  },
+
+  starAura: {
+    position: "absolute",
+    top: "-30px",
+    left: "-30px",
+    right: "-30px",
+    bottom: "-30px",
+    background:
+      "radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent)",
+    borderRadius: "50%",
+    animation: "starAura 4s ease-in-out infinite",
+  },
+
+  satelliteInfluencer: {
+    position: "absolute",
+    transition: "all 0.3s ease",
+    transformStyle: "preserve-3d",
+  },
+
+  satelliteCore: {
+    position: "relative",
+    width: "60px",
+    height: "60px",
+    background:
+      "linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1))",
+    backdropFilter: "blur(15px)",
+    border: "2px solid rgba(255, 255, 255, 0.3)",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#ffffff",
+    boxShadow: "0 0 20px rgba(255, 255, 255, 0.2)",
+  },
+
+  satellitePulse: {
+    position: "absolute",
+    top: "-5px",
+    left: "-5px",
+    right: "-5px",
+    bottom: "-5px",
+    border: "2px solid rgba(255, 255, 255, 0.4)",
+    borderRadius: "50%",
+    animation: "satellitePulse 2s ease-in-out infinite",
+  },
+
+  satelliteTrail: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "80px",
+    height: "80px",
+    border: "1px solid rgba(255, 255, 255, 0.2)",
+    borderRadius: "50%",
+    animation: "satelliteTrail 4s linear infinite",
+  },
+
+  influencerTooltip: {
+    position: "absolute",
+    top: "70px",
+    left: "50%",
+    transform: "translateX(-50%)",
+    padding: "10px 15px",
+    background: "rgba(0, 0, 0, 0.8)",
+    color: "#ffffff",
+    borderRadius: "8px",
+    fontSize: "12px",
+    whiteSpace: "nowrap",
+    opacity: 0,
+    transition: "opacity 0.3s ease",
+    pointerEvents: "none",
+  },
+
+  orbit: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    borderRadius: "50%",
+    animation: "orbitRotate linear infinite",
+  },
+
+  influenceAnalysisPanel: {
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.1))",
+    backdropFilter: "blur(30px)",
+    border: "3px solid rgba(255, 255, 255, 0.3)",
+    borderRadius: "25px",
+    padding: "50px",
+    marginBottom: "50px",
+  },
+
+  analysisHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "40px",
+  },
+
+  analysisTitle: {
+    fontSize: "1.8rem",
+    fontWeight: "700",
+    color: "#ffffff",
+    textShadow: "0 0 15px rgba(255, 255, 255, 0.5)",
+  },
+
+  analysisMode: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    color: "#00ff88",
+    fontSize: "16px",
+    fontWeight: "600",
+  },
+
+  modeIndicator: {
+    width: "12px",
+    height: "12px",
+    background: "#00ff88",
+    borderRadius: "50%",
+    animation: "modeIndicatorPulse 1.5s ease-in-out infinite",
+    boxShadow: "0 0 10px #00ff88",
+  },
+
+  influenceMetrics: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gap: "30px",
+    marginBottom: "50px",
+  },
+
+  influenceMetric: {
+    display: "flex",
+    alignItems: "center",
+    gap: "20px",
+    padding: "25px",
+    background: "rgba(255, 255, 255, 0.1)",
+    borderRadius: "20px",
+    border: "2px solid rgba(255, 255, 255, 0.2)",
+  },
+
+  metricIcon: {
+    width: "50px",
+    height: "50px",
+    background: "linear-gradient(135deg, #e91e63, #9c27b0)",
+    borderRadius: "15px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#ffffff",
+  },
+
+  metricData: {
+    flex: 1,
+  },
+
+  metricLabel: {
+    display: "block",
+    fontSize: "14px",
+    color: "rgba(255, 255, 255, 0.7)",
+    marginBottom: "8px",
+    textTransform: "uppercase",
+    letterSpacing: "0.1em",
+  },
+
+  metricValue: {
+    fontSize: "24px",
+    fontWeight: "700",
+    color: "#ffffff",
+    textShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+  },
+
+  metricProgress: {
+    width: "40px",
+    height: "40px",
+    position: "relative",
+  },
+
+  progressIndicator: {
+    width: "100%",
+    height: "100%",
+    border: "3px solid rgba(255, 255, 255, 0.3)",
+    borderTop: "3px solid #00ff88",
+    borderRadius: "50%",
+    animation: "progressSpin 2s linear infinite",
+  },
+
+  categoryRadar: {
+    textAlign: "center",
+  },
+
+  radarTitle: {
+    fontSize: "1.2rem",
+    fontWeight: "700",
+    color: "#ffffff",
+    marginBottom: "30px",
+  },
+
+  radarContainer: {
+    position: "relative",
+    width: "200px",
+    height: "200px",
+    margin: "0 auto",
+  },
+
+  radarCategory: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  },
+
+  radarPoint: {
+    width: "8px",
+    height: "8px",
+    background: "#00ff88",
+    borderRadius: "50%",
+    boxShadow: "0 0 10px #00ff88",
+  },
+
+  radarLabel: {
+    fontSize: "12px",
+    color: "#ffffff",
+    fontWeight: "600",
+    whiteSpace: "nowrap",
+  },
+
+  influenceTrendline: {
+    background: "rgba(255, 255, 255, 0.1)",
+    backdropFilter: "blur(20px)",
+    border: "2px solid rgba(255, 255, 255, 0.2)",
+    borderRadius: "20px",
+    padding: "30px",
+  },
+
+  trendlineTitle: {
+    fontSize: "1.2rem",
+    fontWeight: "700",
+    color: "#ffffff",
+    marginBottom: "20px",
+    textAlign: "center",
+  },
+
+  trendlineContainer: {
+    display: "flex",
+    alignItems: "flex-end",
+    height: "100px",
+    gap: "2px",
+  },
+
+  trendlineHour: {
+    flex: 1,
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+
+  trendlineBar: {
+    width: "100%",
+    borderRadius: "4px 4px 0 0",
+    animation: "trendlineBarPulse 3s ease-in-out infinite",
+  },
+
+  trendlineLabel: {
+    fontSize: "10px",
+    color: "rgba(255, 255, 255, 0.7)",
+    marginTop: "5px",
+  },
+
+  // ===== SECTION ANALYTICS =====
+  revolutionaryAnalyticsSection: {
+    padding: "150px 0",
+    position: "relative",
+    overflow: "hidden",
+    background:
+      "linear-gradient(135deg, #1a0033 0%, #330066 25%, #4d0099 50%, #6600cc 75%, #7f00ff 100%)",
+    perspective: "1000px",
+  },
+
+  aiBrainCenter: {
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "100px",
+    height: "500px",
+  },
+
+  brainCore: {
+    position: "relative",
+    width: "300px",
+    height: "300px",
+  },
+
+  brainSynapses: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: "50%",
+    overflow: "hidden",
+  },
+
+  synapse: {
+    position: "absolute",
+    width: "2px",
+    height: "2px",
+    background: "#00ffff",
+    borderRadius: "50%",
+    animation: "synapseFlash 3s ease-in-out infinite",
+    boxShadow: "0 0 5px #00ffff",
+  },
+
+  brainVisualization: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "150px",
+    height: "150px",
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(127, 0, 255, 0.3))",
+    backdropFilter: "blur(20px)",
+    border: "3px solid rgba(127, 0, 255, 0.5)",
+    borderRadius: "50%",
+    zIndex: 10,
+  },
+
+  brainIcon: {
+    color: "#7f00ff",
+    filter: "drop-shadow(0 0 20px #7f00ff)",
+  },
+
+  brainPulse: {
+    position: "absolute",
+    top: "-10px",
+    left: "-10px",
+    right: "-10px",
+    bottom: "-10px",
+    border: "3px solid #7f00ff",
+    borderRadius: "50%",
+    animation: "brainPulse 2s ease-in-out infinite",
+  },
+
+  neuralNetworks: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "100%",
+    height: "100%",
+  },
+
+  neuralLayer: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "2px",
+    height: "150px",
+    transformOrigin: "center",
+    animation: "neuralRotate 20s linear infinite",
+  },
+
+  neuralNode: {
+    position: "absolute",
+    width: "6px",
+    height: "6px",
+    background: "#00ffff",
+    borderRadius: "50%",
+    boxShadow: "0 0 8px #00ffff",
+    animation: "neuralNodePulse 2s ease-in-out infinite",
+  },
+
+  aiControlPanel: {
+    position: "absolute",
+    right: "50px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    width: "300px",
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(127, 0, 255, 0.2))",
+    backdropFilter: "blur(25px)",
+    border: "2px solid rgba(127, 0, 255, 0.4)",
+    borderRadius: "20px",
+    padding: "30px",
+  },
+
+  aiPanelHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "25px",
+  },
+
+  aiPanelTitle: {
+    fontSize: "16px",
+    fontWeight: "700",
+    color: "#ffffff",
+  },
+
+  aiStatus: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    color: "#00ff88",
+    fontSize: "14px",
+    fontWeight: "600",
+  },
+
+  aiStatusDot: {
+    width: "10px",
+    height: "10px",
+    background: "#00ff88",
+    borderRadius: "50%",
+    animation: "aiStatusPulse 1.5s ease-in-out infinite",
+    boxShadow: "0 0 8px #00ff88",
+  },
+
+  aiMetrics: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "15px",
+  },
+
+  aiMetric: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "10px 15px",
+    background: "rgba(255, 255, 255, 0.1)",
+    borderRadius: "10px",
+    border: "1px solid rgba(255, 255, 255, 0.2)",
+  },
+
+  aiMetricLabel: {
+    fontSize: "12px",
+    color: "rgba(255, 255, 255, 0.7)",
+  },
+
+  aiMetricValue: {
+    fontSize: "14px",
+    fontWeight: "700",
+    color: "#7f00ff",
+  },
+
+  analyticsModules: {
+    position: "relative",
+    height: "600px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "100px",
+  },
+
+  analyticsModule: {
+    position: "absolute",
+    width: "200px",
+    height: "250px",
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.1))",
+    backdropFilter: "blur(25px)",
+    borderRadius: "20px",
+    padding: "25px",
+    textAlign: "center",
+    transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+    transformStyle: "preserve-3d",
+    border: "2px solid",
+    boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)",
+  },
+
+  moduleIcon: {
+    width: "60px",
+    height: "60px",
+    borderRadius: "15px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "0 auto 20px",
+    boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)",
+  },
+
+  moduleTitle: {
+    fontSize: "14px",
+    fontWeight: "700",
+    color: "#ffffff",
+    marginBottom: "20px",
+    textShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+  },
+
+  moduleVisualization: {
+    height: "80px",
+    marginBottom: "15px",
+    position: "relative",
+  },
+
+  trendLines: {
+    display: "flex",
+    alignItems: "flex-end",
+    height: "100%",
+    gap: "3px",
+    justifyContent: "center",
+  },
+
+  trendLine: {
+    width: "8px",
+    borderRadius: "4px 4px 0 0",
+    animation: "trendLinePulse 2s ease-in-out infinite",
+  },
+
+  sentimentWheel: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    gap: "5px",
+    fontSize: "12px",
+    color: "#ffffff",
+  },
+
+  sentimentPositive: {
+    color: "#00ff88",
+  },
+
+  sentimentNeutral: {
+    color: "#ffff00",
+  },
+
+  sentimentNegative: {
+    color: "#ff4444",
+  },
+
+  behaviorHeatmap: {
+    display: "grid",
+    gridTemplateColumns: "repeat(5, 1fr)",
+    gap: "2px",
+    height: "100%",
+  },
+
+  heatmapCell: {
+    borderRadius: "2px",
+    animation: "heatmapCellPulse 3s ease-in-out infinite",
+  },
+
+  marketRadar: {
+    position: "relative",
+    width: "80px",
+    height: "80px",
+    margin: "0 auto",
+    borderRadius: "50%",
+    border: "2px solid rgba(255, 255, 255, 0.3)",
+  },
+
+  radarGrid: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  },
+
+  radarRing: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    border: "1px solid rgba(255, 255, 255, 0.2)",
+    borderRadius: "50%",
+  },
+
+  radarSweep: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "2px",
+    height: "40px",
+    background: "linear-gradient(180deg, transparent, #00ff88)",
+    transformOrigin: "bottom",
+    animation: "radarSweep 3s linear infinite",
+  },
+
+  moduleStats: {
+    fontSize: "12px",
+    color: "#00ff88",
+    fontWeight: "600",
+  },
+
+  quantumDashboard: {
+    background:
+      "linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(127, 0, 255, 0.2))",
+    backdropFilter: "blur(30px)",
+    border: "3px solid rgba(127, 0, 255, 0.4)",
+    borderRadius: "25px",
+    padding: "50px",
+    boxShadow: "0 30px 60px rgba(127, 0, 255, 0.3)",
+  },
+
+  quantumTitle: {
+    fontSize: "2rem",
+    fontWeight: "700",
+    color: "#ffffff",
+    textAlign: "center",
+    marginBottom: "40px",
+    textShadow: "0 0 20px rgba(127, 0, 255, 0.7)",
+  },
+
+  quantumGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+    gap: "40px",
+  },
+
+  quantumCard: {
+    padding: "30px",
+    background: "rgba(255, 255, 255, 0.1)",
+    backdropFilter: "blur(20px)",
+    border: "2px solid rgba(127, 0, 255, 0.3)",
+    borderRadius: "20px",
+    textAlign: "center",
+  },
+
+  quantumVisualization: {
+    height: "150px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "20px",
+  },
+
+  quantumSphere: {
+    position: "relative",
+    width: "100px",
+    height: "100px",
+  },
+
+  sphereRings: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  },
+
+  sphereRing: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    border: "2px solid rgba(127, 0, 255, 0.4)",
+    borderRadius: "50%",
+    animation: "sphereRingExpand 3s ease-in-out infinite",
+  },
+
+  quantumCore: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    fontSize: "30px",
+    animation: "quantumCoreRotate 5s linear infinite",
+  },
+
+  quantumData: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "8px",
+    fontSize: "14px",
+    color: "rgba(255, 255, 255, 0.8)",
+  },
+
+  dataStream: {
+    height: "150px",
+    overflow: "hidden",
+    position: "relative",
+    background: "rgba(0, 0, 0, 0.3)",
+    borderRadius: "10px",
+    marginBottom: "20px",
+  },
+
+  streamLine: {
+    position: "absolute",
+    width: "100%",
+    height: "2px",
+    animation: "streamFlow 2s linear infinite",
+    boxShadow: "0 0 5px currentColor",
+  },
+
+  dnaVisualization: {
+    height: "150px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "20px",
+  },
+
+  dnaHelix: {
+    position: "relative",
+    width: "80px",
+    height: "120px",
+    transformStyle: "preserve-3d",
+  },
+
+  dnaSegment: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    width: "4px",
+    height: "20px",
+    background: "linear-gradient(90deg, #00ffff, #ff00ff)",
+    transformOrigin: "center",
+    animation: "dnaSegmentRotate 4s linear infinite",
+    boxShadow: "0 0 5px currentColor",
   },
 
   // ===== FOOTER MODERNE =====
   footer: {
     padding: "80px 0 40px",
-    background: "linear-gradient(135deg, #111827 0%, #374151 50%, #4b5563 100%)",
+    background:
+      "linear-gradient(135deg, #111827 0%, #374151 50%, #4b5563 100%)",
     color: "#ffffff",
     position: "relative",
     overflow: "hidden",

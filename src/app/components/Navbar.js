@@ -1,4 +1,3 @@
-// /src/app/components/Navbar.js
 "use client";
 import React, { useState, useEffect } from "react";
 import {
@@ -164,11 +163,7 @@ export default function Navbar({ onMenuItemClick }) {
   );
 }
 
-// ================================
-// STYLES CSS (séparés du code)
-// ================================
 const styles = {
-  // SOLUTION : Position absolute qui monte avec la page ET garde le dégradé
   nav: {
     position: "absolute", // ← SOLUTION ! Absolute = monte avec la page + se superpose au dégradé
     top: "0", // ← Tout en haut de la page
@@ -178,15 +173,11 @@ const styles = {
     zIndex: "100", // ← Au-dessus du contenu mais pas trop haut
     padding: "24px 0", // ← Espacement fixe
   },
-
-  // Conteneur
   container: {
     maxWidth: "1300px",
     margin: "0 auto",
     padding: "0 24px",
   },
-
-  // Barre de navigation - apparence fixe (ne change jamais)
   navBar: {
     backdropFilter: "blur(20px)",
     WebkitBackdropFilter: "blur(20px)",
@@ -199,15 +190,11 @@ const styles = {
     position: "relative",
     width: "100%",
   },
-
-  // Layout flex
   flexContainer: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
   },
-
-  // Logo et marque
   logoContainer: {
     display: "flex",
     alignItems: "center",
@@ -255,8 +242,6 @@ const styles = {
     fontWeight: "600",
     animation: "pulse 2s infinite",
   },
-
-  // Menu de navigation
   menu: {
     display: "flex",
     alignItems: "center",
@@ -282,8 +267,6 @@ const styles = {
   menuIcon: {
     fontSize: "18px",
   },
-
-  // Bouton CTA
   ctaButton: {
     padding: "12px 24px",
     background: "linear-gradient(to right, #3b82f6, #8b5cf6)",
@@ -297,8 +280,6 @@ const styles = {
     alignItems: "center",
     gap: "8px",
   },
-
-  // Menu mobile
   mobileMenu: {
     display: "none",
     background: "none",
