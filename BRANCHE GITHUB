@@ -1,0 +1,74 @@
+----------------------------------------------- ÉTAPE 1 : CRÉER UNE NOUVELLE BRANCHE -----------------------------------------------
+
+# 1. Vérifier sur quelle branche tu es
+git branch
+
+# 2. Aller sur main (sécurité)
+git checkout main
+
+# 3. Mettre à jour main depuis GitHub
+git pull origin main
+
+# 4. Créer et aller sur une nouvelle branche
+git checkout -b nomdelabranche
+
+# 5. Vérifier que tu es bien sur la nouvelle branche
+git branch
+
+
+-----------------------------------------------  ÉTAPE 2 : TRAVAILLER SUR TA BRANCHE -----------------------------------------------
+
+# 6. Faire tes modifications dans ton code...
+# (Tu peux modifier tes fichiers maintenant)
+
+# 7. Vérifier ce qui a changé
+git status
+
+# 8. Ajouter tous tes changements
+git add .
+
+# 9. Sauvegarder avec un message clair
+git commit -m "Ajout de ma nouvelle fonctionnalité"
+
+# 10. OPTIONNEL : Envoyer ta branche sur GitHub
+git push origin nomdelabranche
+
+
+
+
+----------------------------------------------- ÉTAPE 3 : FUSIONNER AVEC MAIN -----------------------------------------------
+
+        # 11. Vérifier ta branche actuelle
+        git branch
+
+        # 12. Sauvegarder tes derniers changements (si nécessaire)
+        git add .
+        git commit -m "Finalisation de ma fonctionnalité"
+
+        # 13. Aller sur la branche main
+        git checkout main
+
+        # 14. Mettre à jour main depuis GitHub
+        git pull origin main
+
+        # 15. Fusionner ta branche dans main
+        git merge nomdelabranche
+
+        # 16. Envoyer les changements sur GitHub
+        git push origin main
+
+
+
+
+ ----------------------------------------------- ÉTAPE 4 : SUPPRIMER LES BRANCHES -----------------------------------------------
+
+        # 17. Supprimer la branche locale
+        git checkout main  # Assurez-vous d'être sur main avant de supprimer la branche
+        git branch -d nomdelabranche
+
+        # 18. Supprimer la branche sur GitHub (si elle existe)
+        git push origin --delete nomdelabranche
+
+        # 19. Vérifier que tout est propre
+        git branch
+        git status
