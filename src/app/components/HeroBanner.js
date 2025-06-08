@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   TrendingUp,
   Eye,
@@ -41,6 +41,17 @@ export default function HeroBanner({ onCTAClick }) {
   const [matrixRain, setMatrixRain] = useState([]);
   const [opacities, setOpacities] = useState([]);
 
+  const hoveredCardIndex = useRef(null);
+
+  // Modifiez votre effet d'animation pour prendre en compte le survol
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (hoveredCardIndex.current === null) {
+        setWaveAnimation((prev) => (prev + 1) % 360);
+      }
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
   const platforms = [
     {
       name: "Facebook",
@@ -673,31 +684,33 @@ export default function HeroBanner({ onCTAClick }) {
             </p>
           </div>
 
-          {/* Grid de métriques en vortex */}
+          {/* Grid de métriques en vortex - Version améliorée */}
           <div style={styles.vortexGrid}>
             {liveMetricsData.map((metric, index) => {
               const angle = index * 90 + waveAnimation;
+              const isHovered = hoveredCardIndex.current === index;
+
               return (
                 <div
                   key={index}
                   style={{
                     ...styles.vortexCard,
-                    transform: `rotate(${angle * 0.5}deg) translateY(${
-                      Math.sin(angle * 0.02) * 10
-                    }px)`,
+                    transform: isHovered
+                      ? "scale(1.2) rotate(0deg) translateZ(50px)"
+                      : `rotate(${angle}deg) translateY(${
+                          Math.sin(angle * 0.02) * 10
+                        }px)`,
+                    transition: "transform 0.5s ease-out",
+                    zIndex: isHovered ? 10 : 1,
+                    boxShadow: isHovered
+                      ? "0 50px 100px rgba(0, 255, 255, 0.4)"
+                      : "0 25px 50px rgba(0, 0, 0, 0.3)",
                   }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.transform =
-                      "scale(1.2) rotate(0deg) translateZ(50px)";
-                    e.currentTarget.style.boxShadow =
-                      "0 50px 100px rgba(0, 255, 255, 0.4)";
+                  onMouseEnter={() => {
+                    hoveredCardIndex.current = index;
                   }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.transform = `rotate(${
-                      angle * 0.5
-                    }deg) translateY(${Math.sin(angle * 0.02) * 10}px)`;
-                    e.currentTarget.style.boxShadow =
-                      "0 25px 50px rgba(0, 0, 0, 0.3)";
+                  onMouseLeave={() => {
+                    hoveredCardIndex.current = null;
                   }}
                 >
                   {/* Fond holographique */}
@@ -736,7 +749,15 @@ export default function HeroBanner({ onCTAClick }) {
                           style={{
                             ...styles.dataPoint,
                             height: `${
-                              20 + Math.sin(waveAnimation * 0.1 + i) * 30
+                              20 +
+                              Math.sin(
+                                (hoveredCardIndex.current === null
+                                  ? waveAnimation
+                                  : 0) *
+                                  0.1 +
+                                  i
+                              ) *
+                                30
                             }%`,
                             background: `hsl(${180 + i * 15}, 70%, 60%)`,
                             animationDelay: `${i * 0.1}s`,
@@ -751,7 +772,11 @@ export default function HeroBanner({ onCTAClick }) {
                     style={{
                       ...styles.scanLine,
                       transform: `translateY(${
-                        Math.sin(waveAnimation * 0.1) * 100
+                        Math.sin(
+                          (hoveredCardIndex.current === null
+                            ? waveAnimation
+                            : 0) * 0.1
+                        ) * 100
                       }%)`,
                     }}
                   ></div>
@@ -1301,57 +1326,319 @@ export default function HeroBanner({ onCTAClick }) {
             })}
           </div>
 
-          {/* Dashboard quantique */}
-          <div style={styles.quantumDashboard}>
-            <h3 style={styles.quantumTitle}>Quantum Analytics Dashboard</h3>
+          {/* Dashboard quantique amélioré */}
+          <div
+            style={{
+              ...styles.quantumDashboard,
+              background:
+                "linear-gradient(135deg, rgba(11,15,41,0.8) 0%, rgba(21,25,61,0.9) 100%)",
+              borderRadius: "24px",
+              padding: "32px",
+              boxShadow: "0 30px 60px rgba(0,255,255,0.15)",
+              border: "1px solid rgba(0, 255, 255, 0.2)",
+              backdropFilter: "blur(12px)",
+              overflow: "hidden",
+              position: "relative",
+            }}
+          >
+            {/* Effet de particules quantiques en arrière-plan */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: `radial-gradient(circle at 20% 30%, 
+      rgba(0, 255, 255, 0.15) 0%, 
+      transparent 40%)`,
+                zIndex: 0,
+              }}
+            ></div>
 
-            <div style={styles.quantumGrid}>
-              <div style={styles.quantumCard}>
-                <h4> Prédictions Futures</h4>
-                <div style={styles.quantumVisualization}>
-                  <div style={styles.quantumSphere}>
-                    <div style={styles.sphereRings}>
-                      {Array.from({ length: 5 }, (_, i) => (
+            <h3
+              style={{
+                ...styles.quantumTitle,
+                fontSize: "28px",
+                fontWeight: 600,
+                background: "linear-gradient(90deg, #00ffff 0%, #00ffaa 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                textAlign: "center",
+                marginBottom: "32px",
+                position: "relative",
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                fontFamily: '"Rajdhani", sans-serif',
+              }}
+            >
+              QUANTUM ANALYTICS DASHBOARD
+            </h3>
+
+            <div
+              style={{
+                ...styles.quantumGrid,
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "24px",
+                position: "relative",
+              }}
+            >
+              {/* Carte des prédictions futures */}
+              <div
+                style={{
+                  ...styles.quantumCard,
+                  background: "rgba(16, 22, 56, 0.7)",
+                  borderRadius: "16px",
+                  padding: "24px",
+                  border: "1px solid rgba(0, 255, 255, 0.2)",
+                  boxShadow: "0 10px 30px rgba(0, 255, 255, 0.1)",
+                  transition: "all 0.3s ease",
+                  ":hover": {
+                    transform: "translateY(-5px)",
+                    boxShadow: "0 15px 35px rgba(0, 255, 255, 0.2)",
+                  },
+                }}
+              >
+                <h4
+                  style={{
+                    fontSize: "20px",
+                    color: "#00ffff",
+                    marginBottom: "20px",
+                    fontWeight: 500,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "50%",
+                      background: "#00ffff",
+                      boxShadow: "0 0 10px #00ffff",
+                    }}
+                  ></span>
+                  PRÉDICTIONS FUTURES
+                </h4>
+
+                <div
+                  style={{
+                    ...styles.quantumVisualization,
+                    height: "200px",
+                    position: "relative",
+                    marginBottom: "24px",
+                  }}
+                >
+                  <div
+                    style={{
+                      ...styles.quantumSphere,
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      width: "150px",
+                      height: "150px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        ...styles.sphereRings,
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    >
+                      {[0, 1, 2, 3, 4].map((i) => (
                         <div
                           key={i}
                           style={{
                             ...styles.sphereRing,
-                            animationDelay: `${i * 0.2}s`,
+                            position: "absolute",
+                            width: `${100 - i * 15}%`,
+                            height: `${100 - i * 15}%`,
+                            border: `1px solid rgba(0, 255, 255, ${
+                              0.3 + i * 0.1
+                            })`,
+                            borderRadius: "50%",
+                            animation: `pulse 3s infinite ${i * 0.2}s`,
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
                           }}
                         />
                       ))}
                     </div>
-                    <div style={styles.quantumCore}>⚛️</div>
+                    <div
+                      style={{
+                        ...styles.quantumCore,
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        fontSize: "40px",
+                        filter: "drop-shadow(0 0 10px rgba(0, 255, 255, 0.7))",
+                      }}
+                    >
+                      ⚛️
+                    </div>
                   </div>
                 </div>
-                <div style={styles.quantumData}>
-                  <div>Prochaine viralité: 94% probable</div>
-                  <div>Temps estimé: 2h 34min</div>
-                  <div>Plateforme cible: TikTok</div>
+
+                <div
+                  style={{
+                    ...styles.quantumData,
+                    color: "#e0e0e0",
+                    fontFamily: '"Roboto Mono", monospace',
+                    fontSize: "14px",
+                    lineHeight: "1.8",
+                  }}
+                >
+                  <div>
+                    <span style={{ color: "#00ffff" }}>›</span> Prochaine
+                    viralité:
+                    <span style={{ color: "#00ffaa", fontWeight: 500 }}>
+                      {" "}
+                      94% probable
+                    </span>
+                  </div>
+                  <div>
+                    <span style={{ color: "#00ffff" }}>›</span> Temps estimé:
+                    <span style={{ color: "#ffffff", fontWeight: 500 }}>
+                      {" "}
+                      2h 34min
+                    </span>
+                  </div>
+                  <div>
+                    <span style={{ color: "#00ffff" }}>›</span> Plateforme
+                    cible:
+                    <span style={{ color: "#ff00aa", fontWeight: 500 }}>
+                      {" "}
+                      TikTok
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              <div style={styles.quantumCard}>
-                <h4>🧬 ADN Viral</h4>
-                <div style={styles.dnaVisualization}>
-                  <div style={styles.dnaHelix}>
-                    {Array.from({ length: 10 }, (_, i) => (
+              {/* Carte ADN Viral */}
+              <div
+                style={{
+                  ...styles.quantumCard,
+                  background: "rgba(16, 22, 56, 0.7)",
+                  borderRadius: "16px",
+                  padding: "24px",
+                  border: "1px solid rgba(255, 0, 255, 0.2)",
+                  boxShadow: "0 10px 30px rgba(255, 0, 255, 0.1)",
+                  transition: "all 0.3s ease",
+                  ":hover": {
+                    transform: "translateY(-5px)",
+                    boxShadow: "0 15px 35px rgba(255, 0, 255, 0.2)",
+                  },
+                }}
+              >
+                <h4
+                  style={{
+                    fontSize: "20px",
+                    color: "#ff00ff",
+                    marginBottom: "20px",
+                    fontWeight: 500,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "50%",
+                      background: "#ff00ff",
+                      boxShadow: "0 0 10px #ff00ff",
+                    }}
+                  ></span>
+                  🧬 ADN VIRAL
+                </h4>
+
+                <div
+                  style={{
+                    ...styles.dnaVisualization,
+                    height: "200px",
+                    position: "relative",
+                    marginBottom: "24px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      ...styles.dnaHelix,
+                      position: "relative",
+                      width: "120px",
+                      height: "120px",
+                    }}
+                  >
+                    {Array.from({ length: 10 }).map((_, i) => (
                       <div
                         key={i}
                         style={{
                           ...styles.dnaSegment,
+                          position: "absolute",
+                          width: "4px",
+                          height: "40px",
+                          background:
+                            "linear-gradient(180deg, #ff00ff, #00ffff)",
+                          left: "50%",
+                          top: "50%",
+                          transformOrigin: "center",
                           transform: `rotateZ(${i * 36}deg) rotateY(${
                             waveAnimation * 2
                           }deg)`,
+                          borderRadius: "4px",
+                          boxShadow: "0 0 10px rgba(255, 0, 255, 0.7)",
+                          animation: "glow 2s infinite alternate",
                         }}
                       />
                     ))}
                   </div>
                 </div>
-                <div style={styles.quantumData}>
-                  <div>Séquences analysées: 2.3M</div>
-                  <div>Patterns détectés: 47</div>
-                  <div>Mutations prédites: 12</div>
+
+                <div
+                  style={{
+                    ...styles.quantumData,
+                    color: "#e0e0e0",
+                    fontFamily: '"Roboto Mono", monospace',
+                    fontSize: "14px",
+                    lineHeight: "1.8",
+                  }}
+                >
+                  <div>
+                    <span style={{ color: "#ff00ff" }}>›</span> Séquences
+                    analysées:
+                    <span style={{ color: "#ffffff", fontWeight: 500 }}>
+                      {" "}
+                      2.3M
+                    </span>
+                  </div>
+                  <div>
+                    <span style={{ color: "#ff00ff" }}>›</span> Patterns
+                    détectés:
+                    <span style={{ color: "#00ffaa", fontWeight: 500 }}>
+                      {" "}
+                      47
+                    </span>
+                  </div>
+                  <div>
+                    <span style={{ color: "#ff00ff" }}>›</span> Mutations
+                    prédites:
+                    <span style={{ color: "#ffff00", fontWeight: 500 }}>
+                      {" "}
+                      12
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
